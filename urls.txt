@@ -16499,7 +16499,6 @@ https://www2.census.gov/geo/tiger/TIGER2007FE/18_INDIANA/18149_Starke/fe_2007_18
 https://www2.census.gov/geo/tiger/TIGER2007FE/18_INDIANA/18151_Steuben/fe_2007_18151_edges.zip
 https://www2.census.gov/geo/tiger/TIGER2007FE/18_INDIANA/18153_Sullivan/fe_2007_18153_edges.zip
 https://www2.census.gov/geo/tiger/TIGER2007FE/18_INDIANA/18155_Switzerland/fe_2007_18155_edges.zip
-https://www2.census.gov/geo/tiger/TIGER2007FE/18_INDIANA/18157_Tippecanoe/fe_2007_18157_edges.zip
 https://www2.census.gov/geo/tiger/TIGER2007FE/18_INDIANA/18159_Tipton/fe_2007_18159_edges.zip
 https://www2.census.gov/geo/tiger/TIGER2007FE/18_INDIANA/18161_Union/fe_2007_18161_edges.zip
 https://www2.census.gov/geo/tiger/TIGER2007FE/18_INDIANA/18163_Vanderburgh/fe_2007_18163_edges.zip
