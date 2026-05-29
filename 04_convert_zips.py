@@ -9,7 +9,7 @@ from collections import defaultdict
 DOWNLOAD_DIR = Path("D:/roads/tiger_downloads")
 SHAPEFILE_DIR = Path("D:/roads/tiger_shapefiles")
 TEMP_DIR = Path("D:/roads/tiger_temp")
-KEEP_ZIPS = False
+KEEP_ZIPS = True
 
 for d in [SHAPEFILE_DIR, TEMP_DIR]:
     d.mkdir(parents=True, exist_ok=True)
