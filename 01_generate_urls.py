@@ -1,36 +1,9 @@
 # generate_urls.py
-import requests
-from bs4 import BeautifulSoup
 import time
-import random
 
-headers = {'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36'}
+from tiger_utils import clean_folders, get_links
+
 base = "https://www2.census.gov/geo/tiger/"
-
-def get_links(url, retries=5):
-    for attempt in range(retries):
-        try:
-            time.sleep(random.uniform(0.5, 1.5))  # random delay every request
-            r = requests.get(url, headers=headers, timeout=60)
-            r.raise_for_status()
-            soup = BeautifulSoup(r.text, 'html.parser')
-            return [a.get('href') for a in soup.find_all('a') if a.get('href')]
-        except Exception as e:
-            wait = 2 ** (attempt + 1)
-            print(f"  ATTEMPT {attempt+1} FAILED: {url} — {e} (retrying in {wait}s)")
-            time.sleep(wait)
-    print(f"  GIVING UP: {url}")
-    return None
-
-def clean_folders(links):
-    if links is None:
-        return []
-    return [l for l in links
-            if l.endswith('/')
-            and not l.startswith('/')
-            and not l.startswith('http')
-            and '?' not in l
-            and l.count('/') == 1]
 
 def retry_failed(failed_list, suffix_filter=None):
     urls = []
