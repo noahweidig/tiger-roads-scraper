@@ -19,9 +19,34 @@ RT_FORMAT_PREFIXES = ['TIGER1992', 'TIGER1999', 'TIGER2002', 'TIGER2003', 'rd_2k
 def is_rt_format(path_str):
     return any(p.lower() in path_str.lower() for p in RT_FORMAT_PREFIXES)
 
+# US state/territory FIPS codes (2-digit). Source: Census Bureau.
+VALID_STATE_FIPS = {
+    '01','02','04','05','06','08','09','10','11','12','13','15','16','17','18',
+    '19','20','21','22','23','24','25','26','27','28','29','30','31','32','33',
+    '34','35','36','37','38','39','40','41','42','44','45','46','47','48','49',
+    '50','51','53','54','55','56',
+    # territories
+    '60','66','69','72','78',
+}
+
+# Anchor to known TIGER filename layouts:
+#   tl_YYYY_SSCCC_*  /  tl_YYYY_SS_*       (2007+ shapefile)
+#   fe_YYYY_SS_*     /  fe_YYYY_SSCCC_*    (2007 FE shapefile)
+#   tgrSSCCC.zip     /  tgrSSCCC*.zip      (RT linefile)
+#   SSCCC_*.zip                            (RT linefile, bare digits)
+_FIPS_PATTERNS = [
+    re.compile(r'^(?:tl|fe)_\d{4}_(\d{2})(?:\d{3})?(?:_|\b)', re.IGNORECASE),
+    re.compile(r'^tgr(\d{2})\d{3}', re.IGNORECASE),
+    re.compile(r'^(\d{2})\d{3}(?:_|\.|\b)'),
+]
+
+
 def get_state_fips(filename):
-    m = re.search(r'(\d{2})\d{3}', filename)
-    return m.group(1) if m else None
+    for pat in _FIPS_PATTERNS:
+        m = pat.search(filename)
+        if m and m.group(1) in VALID_STATE_FIPS:
+            return m.group(1)
+    return None
 
 def get_year_tag(path_str):
     for prefix in RT_FORMAT_PREFIXES + ['TIGER2007FE', 'TIGER2008']:
@@ -30,8 +55,16 @@ def get_year_tag(path_str):
     return 'unknown'
 
 def extract_zip(zip_path, extract_dir):
+    if not zipfile.is_zipfile(zip_path):
+        print(f"  UNZIP FAILED: {zip_path} — not a valid zip file")
+        return False
     try:
+        extract_root = Path(extract_dir).resolve()
         with zipfile.ZipFile(zip_path, 'r') as z:
+            for member in z.namelist():
+                dest = (extract_root / member).resolve()
+                if not dest.is_relative_to(extract_root):
+                    raise ValueError(f"unsafe zip member path: {member}")
             z.extractall(extract_dir)
         return True
     except Exception as e:
@@ -99,7 +132,10 @@ def merge_and_zip_by_state(year_tag, state_fips, shp_list, out_zip):
                    str(merged_shp), str(shp), "-nln", merged_shp.stem]
         result = subprocess.run(cmd, capture_output=True, text=True)
         if result.returncode != 0:
-            print(f"  MERGE FAILED: {shp}\n  {result.stderr}")
+            shutil.rmtree(merge_dir, ignore_errors=True)
+            raise RuntimeError(
+                f"MERGE FAILED for {year_tag}/{state_fips} on {shp}:\n{result.stderr}"
+            )
     with zipfile.ZipFile(out_zip, 'w', zipfile.ZIP_DEFLATED) as zf:
         for f in merge_dir.iterdir():
             zf.write(f, f.name)
@@ -107,7 +143,18 @@ def merge_and_zip_by_state(year_tag, state_fips, shp_list, out_zip):
     print(f"    ZIPPED: {out_zip.name}")
     return True
 
+
+def check_ogr2ogr():
+    try:
+        subprocess.run(
+            ["ogr2ogr", "--version"],
+            check=True, capture_output=True, text=True,
+        )
+    except (FileNotFoundError, subprocess.CalledProcessError) as e:
+        raise SystemExit(f"ERROR: ogr2ogr is required but not available — {e}")
+
 def convert_all():
+    check_ogr2ogr()
     failed = []
     zips = list(DOWNLOAD_DIR.rglob("*.zip"))
     print(f"\nConverting {len(zips)} zip files...")
