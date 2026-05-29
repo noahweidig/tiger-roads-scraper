@@ -20,7 +20,27 @@ def download_all():
         "--save-session=aria2_session.txt",
         "--save-session-interval=30"
     ]
-    subprocess.run(cmd, check=True)
+    try:
+        subprocess.run(cmd, check=True)
+    except FileNotFoundError:
+        print("ERROR: aria2c not found on PATH. Install aria2 and retry.")
+        raise SystemExit(1)
+    except subprocess.CalledProcessError as e:
+        # aria2c writes unfinished/failed URLs to the session file on exit.
+        session_path = Path("aria2_session.txt")
+        failed_path = Path("failed_urls.txt")
+        if session_path.exists():
+            session_path.replace(failed_path)
+            print(
+                f"ERROR: aria2c exited with code {e.returncode}. "
+                f"Unfinished URLs written to {failed_path} — rerun to resume."
+            )
+        else:
+            print(
+                f"ERROR: aria2c exited with code {e.returncode}. "
+                "No session file found; rerun to resume from partial downloads."
+            )
+        raise SystemExit(e.returncode)
 
 if __name__ == "__main__":
     download_all()
