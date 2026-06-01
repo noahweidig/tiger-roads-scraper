@@ -56,10 +56,19 @@ def make_session() -> requests.Session:
 
 def url_to_path(url: str) -> Path:
     p = urlparse(url).path.lstrip("/")
-    parts = p.split("/")
+    parts = [seg for seg in p.split("/") if seg]
+    if any(seg in ("..", ".") or "/" in seg or "\\" in seg or seg.startswith(("/", "~"))
+           for seg in parts):
+        raise ValueError(f"unsafe URL path components: {url}")
     if parts[:2] == ["geo", "tiger"]:
         parts = parts[2:]
-    return DOWNLOAD_DIR.joinpath(*parts)
+    if not parts:
+        raise ValueError(f"empty URL path: {url}")
+    root = DOWNLOAD_DIR.resolve()
+    dest = root.joinpath(*parts).resolve()
+    if not dest.is_relative_to(root):
+        raise ValueError(f"URL escapes download dir: {url}")
+    return dest
 
 
 def head_size(session: requests.Session, url: str) -> tuple[int | None, int | None]:
@@ -79,7 +88,10 @@ def head_size(session: requests.Session, url: str) -> tuple[int | None, int | No
 
 def download_one(url: str, session: requests.Session) -> tuple[str, str, str]:
     """Returns (status, url, info). status ∈ {ok, skip, missing, fail}."""
-    dest = url_to_path(url)
+    try:
+        dest = url_to_path(url)
+    except ValueError as e:
+        return ("fail", url, f"unsafe path: {e}")
     dest.parent.mkdir(parents=True, exist_ok=True)
     tmp = dest.with_suffix(dest.suffix + ".part")
 
