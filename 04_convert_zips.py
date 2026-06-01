@@ -1,3 +1,4 @@
+import os
 import subprocess
 import zipfile
 import shutil
@@ -5,10 +6,10 @@ import re
 from pathlib import Path
 from collections import defaultdict
 
-# ── Config ──
-DOWNLOAD_DIR = Path("D:/roads/tiger_downloads")
-SHAPEFILE_DIR = Path("D:/roads/tiger_shapefiles")
-TEMP_DIR = Path("D:/roads/tiger_temp")
+# ── Config ── (override via env vars)
+DOWNLOAD_DIR = Path(os.environ.get("TIGER_DOWNLOAD_DIR", "tiger_downloads"))
+SHAPEFILE_DIR = Path(os.environ.get("TIGER_SHAPEFILE_DIR", "tiger_shapefiles"))
+TEMP_DIR = Path(os.environ.get("TIGER_TEMP_DIR", "tiger_temp"))
 KEEP_ZIPS = True
 
 for d in [SHAPEFILE_DIR, TEMP_DIR]:
