@@ -65,7 +65,6 @@ https://www2.census.gov/geo/tiger/TIGER1992/01/01127.zip
 https://www2.census.gov/geo/tiger/TIGER1992/01/01129.zip
 https://www2.census.gov/geo/tiger/TIGER1992/01/01131.zip
 https://www2.census.gov/geo/tiger/TIGER1992/01/01133.zip
-https://www2.census.gov/geo/tiger/TIGER1992/01/OtherFiles.zip
 https://www2.census.gov/geo/tiger/TIGER1992/02/02013.zip
 https://www2.census.gov/geo/tiger/TIGER1992/02/02016.zip
 https://www2.census.gov/geo/tiger/TIGER1992/02/02020.zip
@@ -91,7 +90,6 @@ https://www2.census.gov/geo/tiger/TIGER1992/02/02261.zip
 https://www2.census.gov/geo/tiger/TIGER1992/02/02270.zip
 https://www2.census.gov/geo/tiger/TIGER1992/02/02280.zip
 https://www2.census.gov/geo/tiger/TIGER1992/02/02290.zip
-https://www2.census.gov/geo/tiger/TIGER1992/02/OtherFiles.zip
 https://www2.census.gov/geo/tiger/TIGER1992/04/04001.zip
 https://www2.census.gov/geo/tiger/TIGER1992/04/04003.zip
 https://www2.census.gov/geo/tiger/TIGER1992/04/04005.zip
@@ -107,7 +105,6 @@ https://www2.census.gov/geo/tiger/TIGER1992/04/04021.zip
 https://www2.census.gov/geo/tiger/TIGER1992/04/04023.zip
 https://www2.census.gov/geo/tiger/TIGER1992/04/04025.zip
 https://www2.census.gov/geo/tiger/TIGER1992/04/04027.zip
-https://www2.census.gov/geo/tiger/TIGER1992/04/OtherFiles.zip
 https://www2.census.gov/geo/tiger/TIGER1992/05/05001.zip
 https://www2.census.gov/geo/tiger/TIGER1992/05/05003.zip
 https://www2.census.gov/geo/tiger/TIGER1992/05/05005.zip
@@ -183,7 +180,6 @@ https://www2.census.gov/geo/tiger/TIGER1992/05/05143.zip
 https://www2.census.gov/geo/tiger/TIGER1992/05/05145.zip
 https://www2.census.gov/geo/tiger/TIGER1992/05/05147.zip
 https://www2.census.gov/geo/tiger/TIGER1992/05/05149.zip
-https://www2.census.gov/geo/tiger/TIGER1992/05/OtherFiles.zip
 https://www2.census.gov/geo/tiger/TIGER1992/06/06001.zip
 https://www2.census.gov/geo/tiger/TIGER1992/06/06003.zip
 https://www2.census.gov/geo/tiger/TIGER1992/06/06005.zip
@@ -242,7 +238,6 @@ https://www2.census.gov/geo/tiger/TIGER1992/06/06109.zip
 https://www2.census.gov/geo/tiger/TIGER1992/06/06111.zip
 https://www2.census.gov/geo/tiger/TIGER1992/06/06113.zip
 https://www2.census.gov/geo/tiger/TIGER1992/06/06115.zip
-https://www2.census.gov/geo/tiger/TIGER1992/06/OtherFiles.zip
 https://www2.census.gov/geo/tiger/TIGER1992/08/08001.zip
 https://www2.census.gov/geo/tiger/TIGER1992/08/08003.zip
 https://www2.census.gov/geo/tiger/TIGER1992/08/08005.zip
@@ -306,7 +301,6 @@ https://www2.census.gov/geo/tiger/TIGER1992/08/08119.zip
 https://www2.census.gov/geo/tiger/TIGER1992/08/08121.zip
 https://www2.census.gov/geo/tiger/TIGER1992/08/08123.zip
 https://www2.census.gov/geo/tiger/TIGER1992/08/08125.zip
-https://www2.census.gov/geo/tiger/TIGER1992/08/OtherFiles.zip
 https://www2.census.gov/geo/tiger/TIGER1992/09/09001.zip
 https://www2.census.gov/geo/tiger/TIGER1992/09/09003.zip
 https://www2.census.gov/geo/tiger/TIGER1992/09/09005.zip
@@ -315,13 +309,10 @@ https://www2.census.gov/geo/tiger/TIGER1992/09/09009.zip
 https://www2.census.gov/geo/tiger/TIGER1992/09/09011.zip
 https://www2.census.gov/geo/tiger/TIGER1992/09/09013.zip
 https://www2.census.gov/geo/tiger/TIGER1992/09/09015.zip
-https://www2.census.gov/geo/tiger/TIGER1992/09/OtherFiles.zip
 https://www2.census.gov/geo/tiger/TIGER1992/10/10001.zip
 https://www2.census.gov/geo/tiger/TIGER1992/10/10003.zip
 https://www2.census.gov/geo/tiger/TIGER1992/10/10005.zip
-https://www2.census.gov/geo/tiger/TIGER1992/10/OtherFiles.zip
 https://www2.census.gov/geo/tiger/TIGER1992/11/11001.zip
-https://www2.census.gov/geo/tiger/TIGER1992/11/OtherFiles.zip
 https://www2.census.gov/geo/tiger/TIGER1992/12/12001.zip
 https://www2.census.gov/geo/tiger/TIGER1992/12/12003.zip
 https://www2.census.gov/geo/tiger/TIGER1992/12/12005.zip
@@ -389,7 +380,6 @@ https://www2.census.gov/geo/tiger/TIGER1992/12/12127.zip
 https://www2.census.gov/geo/tiger/TIGER1992/12/12129.zip
 https://www2.census.gov/geo/tiger/TIGER1992/12/12131.zip
 https://www2.census.gov/geo/tiger/TIGER1992/12/12133.zip
-https://www2.census.gov/geo/tiger/TIGER1992/12/OtherFiles.zip
 https://www2.census.gov/geo/tiger/TIGER1992/13/13001.zip
 https://www2.census.gov/geo/tiger/TIGER1992/13/13003.zip
 https://www2.census.gov/geo/tiger/TIGER1992/13/13005.zip
@@ -549,13 +539,11 @@ https://www2.census.gov/geo/tiger/TIGER1992/13/13315.zip
 https://www2.census.gov/geo/tiger/TIGER1992/13/13317.zip
 https://www2.census.gov/geo/tiger/TIGER1992/13/13319.zip
 https://www2.census.gov/geo/tiger/TIGER1992/13/13321.zip
-https://www2.census.gov/geo/tiger/TIGER1992/13/OtherFiles.zip
 https://www2.census.gov/geo/tiger/TIGER1992/15/15001.zip
 https://www2.census.gov/geo/tiger/TIGER1992/15/15003.zip
 https://www2.census.gov/geo/tiger/TIGER1992/15/15005.zip
 https://www2.census.gov/geo/tiger/TIGER1992/15/15007.zip
 https://www2.census.gov/geo/tiger/TIGER1992/15/15009.zip
-https://www2.census.gov/geo/tiger/TIGER1992/15/OtherFiles.zip
 https://www2.census.gov/geo/tiger/TIGER1992/16/16001.zip
 https://www2.census.gov/geo/tiger/TIGER1992/16/16003.zip
 https://www2.census.gov/geo/tiger/TIGER1992/16/16005.zip
@@ -600,7 +588,6 @@ https://www2.census.gov/geo/tiger/TIGER1992/16/16081.zip
 https://www2.census.gov/geo/tiger/TIGER1992/16/16083.zip
 https://www2.census.gov/geo/tiger/TIGER1992/16/16085.zip
 https://www2.census.gov/geo/tiger/TIGER1992/16/16087.zip
-https://www2.census.gov/geo/tiger/TIGER1992/16/OtherFiles.zip
 https://www2.census.gov/geo/tiger/TIGER1992/17/17001.zip
 https://www2.census.gov/geo/tiger/TIGER1992/17/17003.zip
 https://www2.census.gov/geo/tiger/TIGER1992/17/17005.zip
@@ -703,7 +690,6 @@ https://www2.census.gov/geo/tiger/TIGER1992/17/17197.zip
 https://www2.census.gov/geo/tiger/TIGER1992/17/17199.zip
 https://www2.census.gov/geo/tiger/TIGER1992/17/17201.zip
 https://www2.census.gov/geo/tiger/TIGER1992/17/17203.zip
-https://www2.census.gov/geo/tiger/TIGER1992/17/OtherFiles.zip
 https://www2.census.gov/geo/tiger/TIGER1992/18/18001.zip
 https://www2.census.gov/geo/tiger/TIGER1992/18/18003.zip
 https://www2.census.gov/geo/tiger/TIGER1992/18/18005.zip
@@ -796,7 +782,6 @@ https://www2.census.gov/geo/tiger/TIGER1992/18/18177.zip
 https://www2.census.gov/geo/tiger/TIGER1992/18/18179.zip
 https://www2.census.gov/geo/tiger/TIGER1992/18/18181.zip
 https://www2.census.gov/geo/tiger/TIGER1992/18/18183.zip
-https://www2.census.gov/geo/tiger/TIGER1992/18/OtherFiles.zip
 https://www2.census.gov/geo/tiger/TIGER1992/19/19001.zip
 https://www2.census.gov/geo/tiger/TIGER1992/19/19003.zip
 https://www2.census.gov/geo/tiger/TIGER1992/19/19005.zip
@@ -896,7 +881,6 @@ https://www2.census.gov/geo/tiger/TIGER1992/19/19191.zip
 https://www2.census.gov/geo/tiger/TIGER1992/19/19193.zip
 https://www2.census.gov/geo/tiger/TIGER1992/19/19195.zip
 https://www2.census.gov/geo/tiger/TIGER1992/19/19197.zip
-https://www2.census.gov/geo/tiger/TIGER1992/19/OtherFiles.zip
 https://www2.census.gov/geo/tiger/TIGER1992/20/20001.zip
 https://www2.census.gov/geo/tiger/TIGER1992/20/20003.zip
 https://www2.census.gov/geo/tiger/TIGER1992/20/20005.zip
@@ -1002,7 +986,6 @@ https://www2.census.gov/geo/tiger/TIGER1992/20/20203.zip
 https://www2.census.gov/geo/tiger/TIGER1992/20/20205.zip
 https://www2.census.gov/geo/tiger/TIGER1992/20/20207.zip
 https://www2.census.gov/geo/tiger/TIGER1992/20/20209.zip
-https://www2.census.gov/geo/tiger/TIGER1992/20/OtherFiles.zip
 https://www2.census.gov/geo/tiger/TIGER1992/21/21001.zip
 https://www2.census.gov/geo/tiger/TIGER1992/21/21003.zip
 https://www2.census.gov/geo/tiger/TIGER1992/21/21005.zip
@@ -1123,7 +1106,6 @@ https://www2.census.gov/geo/tiger/TIGER1992/21/21233.zip
 https://www2.census.gov/geo/tiger/TIGER1992/21/21235.zip
 https://www2.census.gov/geo/tiger/TIGER1992/21/21237.zip
 https://www2.census.gov/geo/tiger/TIGER1992/21/21239.zip
-https://www2.census.gov/geo/tiger/TIGER1992/21/OtherFiles.zip
 https://www2.census.gov/geo/tiger/TIGER1992/22/22001.zip
 https://www2.census.gov/geo/tiger/TIGER1992/22/22003.zip
 https://www2.census.gov/geo/tiger/TIGER1992/22/22005.zip
@@ -1188,7 +1170,6 @@ https://www2.census.gov/geo/tiger/TIGER1992/22/22121.zip
 https://www2.census.gov/geo/tiger/TIGER1992/22/22123.zip
 https://www2.census.gov/geo/tiger/TIGER1992/22/22125.zip
 https://www2.census.gov/geo/tiger/TIGER1992/22/22127.zip
-https://www2.census.gov/geo/tiger/TIGER1992/22/OtherFiles.zip
 https://www2.census.gov/geo/tiger/TIGER1992/23/23001.zip
 https://www2.census.gov/geo/tiger/TIGER1992/23/23003.zip
 https://www2.census.gov/geo/tiger/TIGER1992/23/23005.zip
@@ -1205,7 +1186,6 @@ https://www2.census.gov/geo/tiger/TIGER1992/23/23025.zip
 https://www2.census.gov/geo/tiger/TIGER1992/23/23027.zip
 https://www2.census.gov/geo/tiger/TIGER1992/23/23029.zip
 https://www2.census.gov/geo/tiger/TIGER1992/23/23031.zip
-https://www2.census.gov/geo/tiger/TIGER1992/23/OtherFiles.zip
 https://www2.census.gov/geo/tiger/TIGER1992/24/24001.zip
 https://www2.census.gov/geo/tiger/TIGER1992/24/24003.zip
 https://www2.census.gov/geo/tiger/TIGER1992/24/24005.zip
@@ -1230,7 +1210,6 @@ https://www2.census.gov/geo/tiger/TIGER1992/24/24043.zip
 https://www2.census.gov/geo/tiger/TIGER1992/24/24045.zip
 https://www2.census.gov/geo/tiger/TIGER1992/24/24047.zip
 https://www2.census.gov/geo/tiger/TIGER1992/24/24510.zip
-https://www2.census.gov/geo/tiger/TIGER1992/24/OtherFiles.zip
 https://www2.census.gov/geo/tiger/TIGER1992/25/25001.zip
 https://www2.census.gov/geo/tiger/TIGER1992/25/25003.zip
 https://www2.census.gov/geo/tiger/TIGER1992/25/25005.zip
@@ -1245,7 +1224,6 @@ https://www2.census.gov/geo/tiger/TIGER1992/25/25021.zip
 https://www2.census.gov/geo/tiger/TIGER1992/25/25023.zip
 https://www2.census.gov/geo/tiger/TIGER1992/25/25025.zip
 https://www2.census.gov/geo/tiger/TIGER1992/25/25027.zip
-https://www2.census.gov/geo/tiger/TIGER1992/25/OtherFiles.zip
 https://www2.census.gov/geo/tiger/TIGER1992/26/26001.zip
 https://www2.census.gov/geo/tiger/TIGER1992/26/26003.zip
 https://www2.census.gov/geo/tiger/TIGER1992/26/26005.zip
@@ -1329,7 +1307,6 @@ https://www2.census.gov/geo/tiger/TIGER1992/26/26159.zip
 https://www2.census.gov/geo/tiger/TIGER1992/26/26161.zip
 https://www2.census.gov/geo/tiger/TIGER1992/26/26163.zip
 https://www2.census.gov/geo/tiger/TIGER1992/26/26165.zip
-https://www2.census.gov/geo/tiger/TIGER1992/26/OtherFiles.zip
 https://www2.census.gov/geo/tiger/TIGER1992/27/27001.zip
 https://www2.census.gov/geo/tiger/TIGER1992/27/27003.zip
 https://www2.census.gov/geo/tiger/TIGER1992/27/27005.zip
@@ -1417,7 +1394,6 @@ https://www2.census.gov/geo/tiger/TIGER1992/27/27167.zip
 https://www2.census.gov/geo/tiger/TIGER1992/27/27169.zip
 https://www2.census.gov/geo/tiger/TIGER1992/27/27171.zip
 https://www2.census.gov/geo/tiger/TIGER1992/27/27173.zip
-https://www2.census.gov/geo/tiger/TIGER1992/27/OtherFiles.zip
 https://www2.census.gov/geo/tiger/TIGER1992/28/28001.zip
 https://www2.census.gov/geo/tiger/TIGER1992/28/28003.zip
 https://www2.census.gov/geo/tiger/TIGER1992/28/28005.zip
@@ -1500,7 +1476,6 @@ https://www2.census.gov/geo/tiger/TIGER1992/28/28157.zip
 https://www2.census.gov/geo/tiger/TIGER1992/28/28159.zip
 https://www2.census.gov/geo/tiger/TIGER1992/28/28161.zip
 https://www2.census.gov/geo/tiger/TIGER1992/28/28163.zip
-https://www2.census.gov/geo/tiger/TIGER1992/28/OtherFiles.zip
 https://www2.census.gov/geo/tiger/TIGER1992/29/29001.zip
 https://www2.census.gov/geo/tiger/TIGER1992/29/29003.zip
 https://www2.census.gov/geo/tiger/TIGER1992/29/29005.zip
@@ -1616,7 +1591,6 @@ https://www2.census.gov/geo/tiger/TIGER1992/29/29225.zip
 https://www2.census.gov/geo/tiger/TIGER1992/29/29227.zip
 https://www2.census.gov/geo/tiger/TIGER1992/29/29229.zip
 https://www2.census.gov/geo/tiger/TIGER1992/29/29510.zip
-https://www2.census.gov/geo/tiger/TIGER1992/29/OtherFiles.zip
 https://www2.census.gov/geo/tiger/TIGER1992/30/30001.zip
 https://www2.census.gov/geo/tiger/TIGER1992/30/30003.zip
 https://www2.census.gov/geo/tiger/TIGER1992/30/30005.zip
@@ -1674,7 +1648,6 @@ https://www2.census.gov/geo/tiger/TIGER1992/30/30107.zip
 https://www2.census.gov/geo/tiger/TIGER1992/30/30109.zip
 https://www2.census.gov/geo/tiger/TIGER1992/30/30111.zip
 https://www2.census.gov/geo/tiger/TIGER1992/30/30113.zip
-https://www2.census.gov/geo/tiger/TIGER1992/30/OtherFiles.zip
 https://www2.census.gov/geo/tiger/TIGER1992/31/31001.zip
 https://www2.census.gov/geo/tiger/TIGER1992/31/31003.zip
 https://www2.census.gov/geo/tiger/TIGER1992/31/31005.zip
@@ -1768,7 +1741,6 @@ https://www2.census.gov/geo/tiger/TIGER1992/31/31179.zip
 https://www2.census.gov/geo/tiger/TIGER1992/31/31181.zip
 https://www2.census.gov/geo/tiger/TIGER1992/31/31183.zip
 https://www2.census.gov/geo/tiger/TIGER1992/31/31185.zip
-https://www2.census.gov/geo/tiger/TIGER1992/31/OtherFiles.zip
 https://www2.census.gov/geo/tiger/TIGER1992/32/32001.zip
 https://www2.census.gov/geo/tiger/TIGER1992/32/32003.zip
 https://www2.census.gov/geo/tiger/TIGER1992/32/32005.zip
@@ -1786,7 +1758,6 @@ https://www2.census.gov/geo/tiger/TIGER1992/32/32029.zip
 https://www2.census.gov/geo/tiger/TIGER1992/32/32031.zip
 https://www2.census.gov/geo/tiger/TIGER1992/32/32033.zip
 https://www2.census.gov/geo/tiger/TIGER1992/32/32510.zip
-https://www2.census.gov/geo/tiger/TIGER1992/32/OtherFiles.zip
 https://www2.census.gov/geo/tiger/TIGER1992/33/33001.zip
 https://www2.census.gov/geo/tiger/TIGER1992/33/33003.zip
 https://www2.census.gov/geo/tiger/TIGER1992/33/33005.zip
@@ -1797,7 +1768,6 @@ https://www2.census.gov/geo/tiger/TIGER1992/33/33013.zip
 https://www2.census.gov/geo/tiger/TIGER1992/33/33015.zip
 https://www2.census.gov/geo/tiger/TIGER1992/33/33017.zip
 https://www2.census.gov/geo/tiger/TIGER1992/33/33019.zip
-https://www2.census.gov/geo/tiger/TIGER1992/33/OtherFiles.zip
 https://www2.census.gov/geo/tiger/TIGER1992/34/34001.zip
 https://www2.census.gov/geo/tiger/TIGER1992/34/34003.zip
 https://www2.census.gov/geo/tiger/TIGER1992/34/34005.zip
@@ -1819,7 +1789,6 @@ https://www2.census.gov/geo/tiger/TIGER1992/34/34035.zip
 https://www2.census.gov/geo/tiger/TIGER1992/34/34037.zip
 https://www2.census.gov/geo/tiger/TIGER1992/34/34039.zip
 https://www2.census.gov/geo/tiger/TIGER1992/34/34041.zip
-https://www2.census.gov/geo/tiger/TIGER1992/34/OtherFiles.zip
 https://www2.census.gov/geo/tiger/TIGER1992/35/35001.zip
 https://www2.census.gov/geo/tiger/TIGER1992/35/35003.zip
 https://www2.census.gov/geo/tiger/TIGER1992/35/35005.zip
@@ -1853,7 +1822,6 @@ https://www2.census.gov/geo/tiger/TIGER1992/35/35055.zip
 https://www2.census.gov/geo/tiger/TIGER1992/35/35057.zip
 https://www2.census.gov/geo/tiger/TIGER1992/35/35059.zip
 https://www2.census.gov/geo/tiger/TIGER1992/35/35061.zip
-https://www2.census.gov/geo/tiger/TIGER1992/35/OtherFiles.zip
 https://www2.census.gov/geo/tiger/TIGER1992/36/36001.zip
 https://www2.census.gov/geo/tiger/TIGER1992/36/36003.zip
 https://www2.census.gov/geo/tiger/TIGER1992/36/36005.zip
@@ -1916,7 +1884,6 @@ https://www2.census.gov/geo/tiger/TIGER1992/36/36117.zip
 https://www2.census.gov/geo/tiger/TIGER1992/36/36119.zip
 https://www2.census.gov/geo/tiger/TIGER1992/36/36121.zip
 https://www2.census.gov/geo/tiger/TIGER1992/36/36123.zip
-https://www2.census.gov/geo/tiger/TIGER1992/36/OtherFiles.zip
 https://www2.census.gov/geo/tiger/TIGER1992/37/37001.zip
 https://www2.census.gov/geo/tiger/TIGER1992/37/37003.zip
 https://www2.census.gov/geo/tiger/TIGER1992/37/37005.zip
@@ -2017,7 +1984,6 @@ https://www2.census.gov/geo/tiger/TIGER1992/37/37193.zip
 https://www2.census.gov/geo/tiger/TIGER1992/37/37195.zip
 https://www2.census.gov/geo/tiger/TIGER1992/37/37197.zip
 https://www2.census.gov/geo/tiger/TIGER1992/37/37199.zip
-https://www2.census.gov/geo/tiger/TIGER1992/37/OtherFiles.zip
 https://www2.census.gov/geo/tiger/TIGER1992/38/38001.zip
 https://www2.census.gov/geo/tiger/TIGER1992/38/38003.zip
 https://www2.census.gov/geo/tiger/TIGER1992/38/38005.zip
@@ -2071,7 +2037,6 @@ https://www2.census.gov/geo/tiger/TIGER1992/38/38099.zip
 https://www2.census.gov/geo/tiger/TIGER1992/38/38101.zip
 https://www2.census.gov/geo/tiger/TIGER1992/38/38103.zip
 https://www2.census.gov/geo/tiger/TIGER1992/38/38105.zip
-https://www2.census.gov/geo/tiger/TIGER1992/38/OtherFiles.zip
 https://www2.census.gov/geo/tiger/TIGER1992/39/39001.zip
 https://www2.census.gov/geo/tiger/TIGER1992/39/39003.zip
 https://www2.census.gov/geo/tiger/TIGER1992/39/39005.zip
@@ -2160,7 +2125,6 @@ https://www2.census.gov/geo/tiger/TIGER1992/39/39169.zip
 https://www2.census.gov/geo/tiger/TIGER1992/39/39171.zip
 https://www2.census.gov/geo/tiger/TIGER1992/39/39173.zip
 https://www2.census.gov/geo/tiger/TIGER1992/39/39175.zip
-https://www2.census.gov/geo/tiger/TIGER1992/39/OtherFiles.zip
 https://www2.census.gov/geo/tiger/TIGER1992/40/40001.zip
 https://www2.census.gov/geo/tiger/TIGER1992/40/40003.zip
 https://www2.census.gov/geo/tiger/TIGER1992/40/40005.zip
@@ -2238,7 +2202,6 @@ https://www2.census.gov/geo/tiger/TIGER1992/40/40147.zip
 https://www2.census.gov/geo/tiger/TIGER1992/40/40149.zip
 https://www2.census.gov/geo/tiger/TIGER1992/40/40151.zip
 https://www2.census.gov/geo/tiger/TIGER1992/40/40153.zip
-https://www2.census.gov/geo/tiger/TIGER1992/40/OtherFiles.zip
 https://www2.census.gov/geo/tiger/TIGER1992/41/41001.zip
 https://www2.census.gov/geo/tiger/TIGER1992/41/41003.zip
 https://www2.census.gov/geo/tiger/TIGER1992/41/41005.zip
@@ -2275,7 +2238,6 @@ https://www2.census.gov/geo/tiger/TIGER1992/41/41065.zip
 https://www2.census.gov/geo/tiger/TIGER1992/41/41067.zip
 https://www2.census.gov/geo/tiger/TIGER1992/41/41069.zip
 https://www2.census.gov/geo/tiger/TIGER1992/41/41071.zip
-https://www2.census.gov/geo/tiger/TIGER1992/41/OtherFiles.zip
 https://www2.census.gov/geo/tiger/TIGER1992/42/42001.zip
 https://www2.census.gov/geo/tiger/TIGER1992/42/42003.zip
 https://www2.census.gov/geo/tiger/TIGER1992/42/42005.zip
@@ -2343,13 +2305,11 @@ https://www2.census.gov/geo/tiger/TIGER1992/42/42127.zip
 https://www2.census.gov/geo/tiger/TIGER1992/42/42129.zip
 https://www2.census.gov/geo/tiger/TIGER1992/42/42131.zip
 https://www2.census.gov/geo/tiger/TIGER1992/42/42133.zip
-https://www2.census.gov/geo/tiger/TIGER1992/42/OtherFiles.zip
 https://www2.census.gov/geo/tiger/TIGER1992/44/44001.zip
 https://www2.census.gov/geo/tiger/TIGER1992/44/44003.zip
 https://www2.census.gov/geo/tiger/TIGER1992/44/44005.zip
 https://www2.census.gov/geo/tiger/TIGER1992/44/44007.zip
 https://www2.census.gov/geo/tiger/TIGER1992/44/44009.zip
-https://www2.census.gov/geo/tiger/TIGER1992/44/OtherFiles.zip
 https://www2.census.gov/geo/tiger/TIGER1992/45/45001.zip
 https://www2.census.gov/geo/tiger/TIGER1992/45/45003.zip
 https://www2.census.gov/geo/tiger/TIGER1992/45/45005.zip
@@ -2396,7 +2356,6 @@ https://www2.census.gov/geo/tiger/TIGER1992/45/45085.zip
 https://www2.census.gov/geo/tiger/TIGER1992/45/45087.zip
 https://www2.census.gov/geo/tiger/TIGER1992/45/45089.zip
 https://www2.census.gov/geo/tiger/TIGER1992/45/45091.zip
-https://www2.census.gov/geo/tiger/TIGER1992/45/OtherFiles.zip
 https://www2.census.gov/geo/tiger/TIGER1992/46/46003.zip
 https://www2.census.gov/geo/tiger/TIGER1992/46/46005.zip
 https://www2.census.gov/geo/tiger/TIGER1992/46/46007.zip
@@ -2463,7 +2422,6 @@ https://www2.census.gov/geo/tiger/TIGER1992/46/46127.zip
 https://www2.census.gov/geo/tiger/TIGER1992/46/46129.zip
 https://www2.census.gov/geo/tiger/TIGER1992/46/46135.zip
 https://www2.census.gov/geo/tiger/TIGER1992/46/46137.zip
-https://www2.census.gov/geo/tiger/TIGER1992/46/OtherFiles.zip
 https://www2.census.gov/geo/tiger/TIGER1992/47/47001.zip
 https://www2.census.gov/geo/tiger/TIGER1992/47/47003.zip
 https://www2.census.gov/geo/tiger/TIGER1992/47/47005.zip
@@ -2559,7 +2517,6 @@ https://www2.census.gov/geo/tiger/TIGER1992/47/47183.zip
 https://www2.census.gov/geo/tiger/TIGER1992/47/47185.zip
 https://www2.census.gov/geo/tiger/TIGER1992/47/47187.zip
 https://www2.census.gov/geo/tiger/TIGER1992/47/47189.zip
-https://www2.census.gov/geo/tiger/TIGER1992/47/OtherFiles.zip
 https://www2.census.gov/geo/tiger/TIGER1992/48/48001.zip
 https://www2.census.gov/geo/tiger/TIGER1992/48/48003.zip
 https://www2.census.gov/geo/tiger/TIGER1992/48/48005.zip
@@ -2814,7 +2771,6 @@ https://www2.census.gov/geo/tiger/TIGER1992/48/48501.zip
 https://www2.census.gov/geo/tiger/TIGER1992/48/48503.zip
 https://www2.census.gov/geo/tiger/TIGER1992/48/48505.zip
 https://www2.census.gov/geo/tiger/TIGER1992/48/48507.zip
-https://www2.census.gov/geo/tiger/TIGER1992/48/OtherFiles.zip
 https://www2.census.gov/geo/tiger/TIGER1992/49/49001.zip
 https://www2.census.gov/geo/tiger/TIGER1992/49/49003.zip
 https://www2.census.gov/geo/tiger/TIGER1992/49/49005.zip
@@ -2844,7 +2800,6 @@ https://www2.census.gov/geo/tiger/TIGER1992/49/49051.zip
 https://www2.census.gov/geo/tiger/TIGER1992/49/49053.zip
 https://www2.census.gov/geo/tiger/TIGER1992/49/49055.zip
 https://www2.census.gov/geo/tiger/TIGER1992/49/49057.zip
-https://www2.census.gov/geo/tiger/TIGER1992/49/OtherFiles.zip
 https://www2.census.gov/geo/tiger/TIGER1992/50/50001.zip
 https://www2.census.gov/geo/tiger/TIGER1992/50/50003.zip
 https://www2.census.gov/geo/tiger/TIGER1992/50/50005.zip
@@ -2859,7 +2814,6 @@ https://www2.census.gov/geo/tiger/TIGER1992/50/50021.zip
 https://www2.census.gov/geo/tiger/TIGER1992/50/50023.zip
 https://www2.census.gov/geo/tiger/TIGER1992/50/50025.zip
 https://www2.census.gov/geo/tiger/TIGER1992/50/50027.zip
-https://www2.census.gov/geo/tiger/TIGER1992/50/OtherFiles.zip
 https://www2.census.gov/geo/tiger/TIGER1992/51/51001.zip
 https://www2.census.gov/geo/tiger/TIGER1992/51/51003.zip
 https://www2.census.gov/geo/tiger/TIGER1992/51/51005.zip
@@ -2996,7 +2950,6 @@ https://www2.census.gov/geo/tiger/TIGER1992/51/51810.zip
 https://www2.census.gov/geo/tiger/TIGER1992/51/51820.zip
 https://www2.census.gov/geo/tiger/TIGER1992/51/51830.zip
 https://www2.census.gov/geo/tiger/TIGER1992/51/51840.zip
-https://www2.census.gov/geo/tiger/TIGER1992/51/OtherFiles.zip
 https://www2.census.gov/geo/tiger/TIGER1992/53/53001.zip
 https://www2.census.gov/geo/tiger/TIGER1992/53/53003.zip
 https://www2.census.gov/geo/tiger/TIGER1992/53/53005.zip
@@ -3036,7 +2989,6 @@ https://www2.census.gov/geo/tiger/TIGER1992/53/53071.zip
 https://www2.census.gov/geo/tiger/TIGER1992/53/53073.zip
 https://www2.census.gov/geo/tiger/TIGER1992/53/53075.zip
 https://www2.census.gov/geo/tiger/TIGER1992/53/53077.zip
-https://www2.census.gov/geo/tiger/TIGER1992/53/OtherFiles.zip
 https://www2.census.gov/geo/tiger/TIGER1992/54/54001.zip
 https://www2.census.gov/geo/tiger/TIGER1992/54/54003.zip
 https://www2.census.gov/geo/tiger/TIGER1992/54/54005.zip
@@ -3092,7 +3044,6 @@ https://www2.census.gov/geo/tiger/TIGER1992/54/54103.zip
 https://www2.census.gov/geo/tiger/TIGER1992/54/54105.zip
 https://www2.census.gov/geo/tiger/TIGER1992/54/54107.zip
 https://www2.census.gov/geo/tiger/TIGER1992/54/54109.zip
-https://www2.census.gov/geo/tiger/TIGER1992/54/OtherFiles.zip
 https://www2.census.gov/geo/tiger/TIGER1992/55/55001.zip
 https://www2.census.gov/geo/tiger/TIGER1992/55/55003.zip
 https://www2.census.gov/geo/tiger/TIGER1992/55/55005.zip
@@ -3165,7 +3116,6 @@ https://www2.census.gov/geo/tiger/TIGER1992/55/55135.zip
 https://www2.census.gov/geo/tiger/TIGER1992/55/55137.zip
 https://www2.census.gov/geo/tiger/TIGER1992/55/55139.zip
 https://www2.census.gov/geo/tiger/TIGER1992/55/55141.zip
-https://www2.census.gov/geo/tiger/TIGER1992/55/OtherFiles.zip
 https://www2.census.gov/geo/tiger/TIGER1992/56/56001.zip
 https://www2.census.gov/geo/tiger/TIGER1992/56/56003.zip
 https://www2.census.gov/geo/tiger/TIGER1992/56/56005.zip
@@ -3189,20 +3139,16 @@ https://www2.census.gov/geo/tiger/TIGER1992/56/56039.zip
 https://www2.census.gov/geo/tiger/TIGER1992/56/56041.zip
 https://www2.census.gov/geo/tiger/TIGER1992/56/56043.zip
 https://www2.census.gov/geo/tiger/TIGER1992/56/56045.zip
-https://www2.census.gov/geo/tiger/TIGER1992/56/OtherFiles.zip
 https://www2.census.gov/geo/tiger/TIGER1992/60/60010.zip
 https://www2.census.gov/geo/tiger/TIGER1992/60/60020.zip
 https://www2.census.gov/geo/tiger/TIGER1992/60/60030.zip
 https://www2.census.gov/geo/tiger/TIGER1992/60/60040.zip
 https://www2.census.gov/geo/tiger/TIGER1992/60/60050.zip
-https://www2.census.gov/geo/tiger/TIGER1992/60/OtherFiles.zip
 https://www2.census.gov/geo/tiger/TIGER1992/66/66010.zip
-https://www2.census.gov/geo/tiger/TIGER1992/66/OtherFiles.zip
 https://www2.census.gov/geo/tiger/TIGER1992/69/69085.zip
 https://www2.census.gov/geo/tiger/TIGER1992/69/69100.zip
 https://www2.census.gov/geo/tiger/TIGER1992/69/69110.zip
 https://www2.census.gov/geo/tiger/TIGER1992/69/69120.zip
-https://www2.census.gov/geo/tiger/TIGER1992/69/OtherFiles.zip
 https://www2.census.gov/geo/tiger/TIGER1992/70/70002.zip
 https://www2.census.gov/geo/tiger/TIGER1992/70/70004.zip
 https://www2.census.gov/geo/tiger/TIGER1992/70/70010.zip
@@ -3219,7 +3165,6 @@ https://www2.census.gov/geo/tiger/TIGER1992/70/70227.zip
 https://www2.census.gov/geo/tiger/TIGER1992/70/70228.zip
 https://www2.census.gov/geo/tiger/TIGER1992/70/70350.zip
 https://www2.census.gov/geo/tiger/TIGER1992/70/70370.zip
-https://www2.census.gov/geo/tiger/TIGER1992/70/OtherFiles.zip
 https://www2.census.gov/geo/tiger/TIGER1992/72/72001.zip
 https://www2.census.gov/geo/tiger/TIGER1992/72/72003.zip
 https://www2.census.gov/geo/tiger/TIGER1992/72/72005.zip
@@ -3298,13 +3243,10 @@ https://www2.census.gov/geo/tiger/TIGER1992/72/72147.zip
 https://www2.census.gov/geo/tiger/TIGER1992/72/72149.zip
 https://www2.census.gov/geo/tiger/TIGER1992/72/72151.zip
 https://www2.census.gov/geo/tiger/TIGER1992/72/72153.zip
-https://www2.census.gov/geo/tiger/TIGER1992/72/OtherFiles.zip
 https://www2.census.gov/geo/tiger/TIGER1992/74/74300.zip
-https://www2.census.gov/geo/tiger/TIGER1992/74/OtherFiles.zip
 https://www2.census.gov/geo/tiger/TIGER1992/78/78010.zip
 https://www2.census.gov/geo/tiger/TIGER1992/78/78020.zip
 https://www2.census.gov/geo/tiger/TIGER1992/78/78030.zip
-https://www2.census.gov/geo/tiger/TIGER1992/78/OtherFiles.zip
 https://www2.census.gov/geo/tiger/TIGER1999/AK/tgr02013.zip
 https://www2.census.gov/geo/tiger/TIGER1999/AK/tgr02016.zip
 https://www2.census.gov/geo/tiger/TIGER1999/AK/tgr02020.zip
@@ -16340,7 +16282,6 @@ https://www2.census.gov/geo/tiger/TIGER2007FE/17_ILLINOIS/17035_Cumberland/fe_20
 https://www2.census.gov/geo/tiger/TIGER2007FE/17_ILLINOIS/17037_DeKalb/fe_2007_17037_edges.zip
 https://www2.census.gov/geo/tiger/TIGER2007FE/17_ILLINOIS/17039_De_Witt/fe_2007_17039_edges.zip
 https://www2.census.gov/geo/tiger/TIGER2007FE/17_ILLINOIS/17041_Douglas/fe_2007_17041_edges.zip
-https://www2.census.gov/geo/tiger/TIGER2007FE/17_ILLINOIS/17043_DuPage/fe_2007_17043_edges.zip
 https://www2.census.gov/geo/tiger/TIGER2007FE/17_ILLINOIS/17045_Edgar/fe_2007_17045_edges.zip
 https://www2.census.gov/geo/tiger/TIGER2007FE/17_ILLINOIS/17047_Edwards/fe_2007_17047_edges.zip
 https://www2.census.gov/geo/tiger/TIGER2007FE/17_ILLINOIS/17049_Effingham/fe_2007_17049_edges.zip
@@ -16499,6 +16440,7 @@ https://www2.census.gov/geo/tiger/TIGER2007FE/18_INDIANA/18149_Starke/fe_2007_18
 https://www2.census.gov/geo/tiger/TIGER2007FE/18_INDIANA/18151_Steuben/fe_2007_18151_edges.zip
 https://www2.census.gov/geo/tiger/TIGER2007FE/18_INDIANA/18153_Sullivan/fe_2007_18153_edges.zip
 https://www2.census.gov/geo/tiger/TIGER2007FE/18_INDIANA/18155_Switzerland/fe_2007_18155_edges.zip
+https://www2.census.gov/geo/tiger/TIGER2007FE/18_INDIANA/18157_Tippecanoe/fe_2007_18157_edges.zip
 https://www2.census.gov/geo/tiger/TIGER2007FE/18_INDIANA/18159_Tipton/fe_2007_18159_edges.zip
 https://www2.census.gov/geo/tiger/TIGER2007FE/18_INDIANA/18161_Union/fe_2007_18161_edges.zip
 https://www2.census.gov/geo/tiger/TIGER2007FE/18_INDIANA/18163_Vanderburgh/fe_2007_18163_edges.zip
