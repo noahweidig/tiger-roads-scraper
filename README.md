@@ -8,7 +8,7 @@ The pipeline runs in four steps:
 
 1. **`01_generate_urls.py`** — Scrapes the Census FTP index to build a list of all road zip file URLs and writes them to `urls.txt`.
 2. **`02_check_urls.py`** — Audits the same index, reports file counts per state/year, and writes a full inventory to `tiger_inventory.json`.
-3. **`03_download_zips.py`** — Downloads every URL in `urls.txt` in parallel using `aria2c`.
+3. **`03_download_zips.py`** — Downloads every URL in `urls.txt` concurrently with HEAD-based size verification, resume, retries with exponential backoff, and per-URL failure logging. Safe to rerun; already-complete files are skipped.
 4. **`04_convert_zips.py`** — Extracts each zip, converts the contents to ESRI Shapefile format via `ogr2ogr`, merges county-level files by state, and produces one zipped shapefile per state per year.
 
 Years covered: TIGER1992, TIGER1999, TIGER2002, TIGER2003, rd_2ktiger, TIGER2007FE, TIGER2008.
@@ -18,8 +18,9 @@ Years covered: TIGER1992, TIGER1999, TIGER2002, TIGER2003, rd_2ktiger, TIGER2007
 | Requirement | Version | Notes |
 |---|---|---|
 | Python | 3.8+ | |
-| aria2c | any recent | download manager — `brew install aria2` / `apt install aria2` |
 | GDAL / ogr2ogr | 3.x | `brew install gdal` / `apt install gdal-bin` |
+
+The downloader is pure Python (`requests` + threads). No `aria2c` needed.
 
 ## Installation
 
@@ -42,7 +43,8 @@ Or run steps individually:
 ```bash
 make urls      # Step 1: scrape URLs → urls.txt
 make check     # Step 2: audit inventory → tiger_inventory.json
-make download  # Step 3: download zips via aria2c
+make download  # Step 3: download zips (concurrent, verified)
+make retry     # Step 3b: retry only previously failed URLs
 make convert   # Step 4: convert & merge → per-state shapefiles
 make clean     # Remove generated text/log files
 ```
@@ -52,10 +54,12 @@ make clean     # Remove generated text/log files
 Edit the top of `03_download_zips.py` and `04_convert_zips.py` to set output directories:
 
 ```python
-DOWNLOAD_DIR  = Path("D:/roads/tiger_downloads")   # raw zip files
-SHAPEFILE_DIR = Path("D:/roads/tiger_shapefiles")  # final output
-TEMP_DIR      = Path("D:/roads/tiger_temp")        # working directory
+DOWNLOAD_DIR  = Path("tiger_downloads")    # raw zip files (override via env: TIGER_DOWNLOAD_DIR)
+SHAPEFILE_DIR = Path("tiger_shapefiles")   # final output
+TEMP_DIR      = Path("tiger_temp")         # working directory
 ```
+
+The downloader honors `TIGER_DOWNLOAD_DIR` and accepts `--workers N` (default 16) and `--retry-fails`.
 
 All output shapefiles are reprojected to **EPSG:4326** (WGS 84).
 
@@ -79,11 +83,16 @@ Each zip contains a single merged ESRI Shapefile (`.shp`, `.dbf`, `.shx`, `.prj`
 
 ## Troubleshooting
 
-**`aria2c: command not found`** — Install aria2: `brew install aria2` (macOS) or `sudo apt install aria2` (Debian/Ubuntu).
-
 **`ogr2ogr: command not found`** — Install GDAL: `brew install gdal` or `sudo apt install gdal-bin`.
 
-**Permanent download failures** — URLs that fail after all retries are written to `failed_urls.txt`. Re-run `make download` to resume; aria2c will skip already-downloaded files.
+**Download failures / timeouts / partials** — All recorded under `logs/`:
+- `logs/download_failures.txt` — URLs that exhausted retries (with reason). Retry with `make retry` or `python 03_download_zips.py --retry-fails`.
+- `logs/download_missing.txt` — URLs that returned 404/403 (server-side missing).
+- `logs/download_ok.txt` — completed URLs.
+- `logs/download_summary.json` — final counts.
+- `logs/download_progress.log` — live failure/miss stream.
+
+Reruns skip files whose on-disk size matches the server's `Content-Length`. Partial `.part` files are resumed via HTTP `Range`.
 
 **Conversion failures** — Files that fail `ogr2ogr` conversion are listed in `conversion_failures.txt` at the end of step 4.
 
