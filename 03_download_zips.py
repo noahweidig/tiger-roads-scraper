@@ -38,6 +38,20 @@ READ_TIMEOUT = 180
 MAX_RETRIES = 6
 HEADERS = {"User-Agent": "Mozilla/5.0 tiger-line-downloader/1.0"}
 
+ALLOWED_HOSTS = frozenset({"www2.census.gov", "www.census.gov", "census.gov"})
+ALLOWED_SCHEMES = frozenset({"https"})
+
+
+def validate_url(url: str) -> None:
+    """Raise ValueError unless url targets a known-good Census host over HTTPS."""
+    parsed = urlparse(url)
+    if parsed.scheme not in ALLOWED_SCHEMES:
+        raise ValueError(f"scheme {parsed.scheme!r} not allowed")
+    if parsed.hostname not in ALLOWED_HOSTS:
+        raise ValueError(f"host {parsed.hostname!r} not in allowlist")
+    if parsed.port not in (None, 443):
+        raise ValueError(f"port {parsed.port} not allowed")
+
 
 def make_session() -> requests.Session:
     s = requests.Session()
@@ -89,9 +103,10 @@ def head_size(session: requests.Session, url: str) -> tuple[int | None, int | No
 def download_one(url: str, session: requests.Session) -> tuple[str, str, str]:
     """Returns (status, url, info). status ∈ {ok, skip, missing, fail}."""
     try:
+        validate_url(url)
         dest = url_to_path(url)
     except ValueError as e:
-        return ("fail", url, f"unsafe path: {e}")
+        return ("fail", url, f"unsafe url: {e}")
     dest.parent.mkdir(parents=True, exist_ok=True)
     tmp = dest.with_suffix(dest.suffix + ".part")
 
