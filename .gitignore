@@ -6,3 +6,4 @@ tiger_temp/
 logs/
 aria2_session.txt
 incomplete_urls.txt
+/.Rproj.user
