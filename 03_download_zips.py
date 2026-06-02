@@ -22,7 +22,7 @@ from requests.adapters import HTTPAdapter
 from urllib3.util.retry import Retry
 
 URLS_FILE = Path("urls.txt")
-DOWNLOAD_DIR = Path(os.environ.get("TIGER_DOWNLOAD_DIR", "tiger_downloads"))
+DOWNLOAD_DIR = Path(os.environ.get("TIGER_DOWNLOAD_DIR", "D:/roads"))
 LOG_DIR = Path("logs")
 
 FAIL_LOG = LOG_DIR / "download_failures.txt"
@@ -78,6 +78,10 @@ def url_to_path(url: str) -> Path:
         parts = parts[2:]
     if not parts:
         raise ValueError(f"empty URL path: {url}")
+    # Lowercase the year folder (e.g. TIGER1992 → tiger1992) so each year
+    # gets its own predictably-named directory and same-FIPS files from
+    # different years don't collide.
+    parts[0] = parts[0].lower()
     root = DOWNLOAD_DIR.resolve()
     dest = root.joinpath(*parts).resolve()
     if not dest.is_relative_to(root):
