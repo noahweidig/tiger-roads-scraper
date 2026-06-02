@@ -78,17 +78,36 @@ open('failed_urls.txt', 'w').close()
 
 urls = []
 
-for year_folder in ['TIGER1992/', 'TIGER1999/', 'TIGER2002/', 'TIGER2003/']:
-    urls += scrape_year(year_folder)
+# One-level RT line-file years (year/state/tgrSSCCC.zip). 2000=rd_2ktiger,
+# 2005=tiger2005se, 2006=tiger2006se. Each year scraped independently so a
+# single failing year can't lose the rest.
+ONE_LVL = ['TIGER1992/', 'TIGER1999/', 'TIGER2002/', 'TIGER2003/',
+           'tiger2005se/', 'tiger2006se/', 'rd_2ktiger/']
+# Two-level shapefile years (year/state/county/*_edges.zip).
+TWO_LVL = ['TIGER2007FE/', 'TIGER2008/']
 
-urls += scrape_year('rd_2ktiger/')
+def safe(fn, yf, **kw):
+    try:
+        return fn(yf, **kw)
+    except Exception as e:                       # never let one year abort all
+        print(f"  YEAR FAILED: {yf} — {e}")
+        with open('failed_urls.txt', 'a') as f:
+            f.write(f"{base + yf}\tYEAR_ERROR: {e}\n")
+        return []
 
-for year_folder in ['TIGER2007FE/', 'TIGER2008/']:
-    urls += scrape_year_two_level(year_folder, suffix_filter='_edges.zip')
+for yf in ONE_LVL:
+    urls += safe(scrape_year, yf)
+for yf in TWO_LVL:
+    urls += safe(scrape_year_two_level, yf, suffix_filter='_edges.zip')
+
+# Dedup, preserve order, drop blanks.
+seen, uniq = set(), []
+for u in urls:
+    if u and u not in seen:
+        seen.add(u); uniq.append(u)
 
 with open('urls.txt', 'w') as f:
-    for url in urls:
-        f.write(url + '\n')
+    f.write('\n'.join(uniq) + ('\n' if uniq else ''))
 
-print(f"\nTotal: {len(urls)} URLs written to urls.txt")
+print(f"\nTotal: {len(uniq)} unique URLs written to urls.txt")
 print(f"Check failed_urls.txt for any permanent failures")

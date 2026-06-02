@@ -12,7 +12,7 @@ Download & convert historical TIGER/Line road shapefiles (1992–2008) from US C
 3. **`03_download_zips.py`** — Concurrent download w/ size verification, resume, exponential backoff, exhaustive logging
 4. **`04_convert_zips.py`** — Extract, ogr2ogr to ESRI Shapefile, merge by state → zipped output
 
-**Years:** TIGER1992, TIGER1999, TIGER2002, TIGER2003, rd_2ktiger, TIGER2007FE, TIGER2008 (7 snapshots).
+**Years:** TIGER1992, TIGER1999, TIGER2002, TIGER2003, rd_2ktiger (2000), tiger2005se, tiger2006se, TIGER2007FE, TIGER2008 (9 snapshots).
 
 ## Prerequisites
 
@@ -59,9 +59,11 @@ python 04_convert_zips.py
 ## Configuration
 
 **Environment variables** (override defaults):
-- `TIGER_DOWNLOAD_DIR` — Raw zip storage (default: `tiger_downloads/`)
-- `TIGER_SHAPEFILE_DIR` — Final output (default: `tiger_shapefiles/`)
-- `TIGER_TEMP_DIR` — Working dir (default: `tiger_temp/`)
+- `TIGER_DOWNLOAD_DIR` — Raw zip storage (default: `D:/roads`, written as `D:/roads/tiger<year>/...`)
+- `TIGER_SHAPEFILE_DIR` — Final output (default: `D:/roads_shapefiles`)
+- `TIGER_TEMP_DIR` — Working dir (default: `D:/roads_temp`)
+
+Step 3 (download) and step 4 (convert) share the same `D:/roads` default, so the pipeline runs end-to-end with no env vars set.
 
 **Script configs** (edit source):
 ```python
@@ -167,9 +169,10 @@ sudo apt install gdal-bin
 
 ## Data notes
 
-- **TIGER1992, 1999, 2002, 2003, rd_2ktiger:** RT format (older record structure)
-- **TIGER2007FE, 2008:** RD format (modern TIGER spec)
+- **TIGER1992, 1999, 2002, 2003, rd_2ktiger (2000), tiger2005se, tiger2006se:** RT line-file format (older record structure; GDAL TIGER driver reads the extracted record-type dir, `CompleteChain` layer = roads)
+- **TIGER2007FE, 2008:** modern shapefile zips (`*_edges.zip`)
 - Auto-detected; conversion handles both transparently
+- Converter never hard-fails: each zip/county/state is isolated, ogr2ogr is retried with backoff (layer→whole-source, reproject→raw fallbacks), bad features are skipped (`-skipfailures`), and all issues are logged to `conversion_failures.txt` while valid output is still produced. Reruns are idempotent.
 - Some years have incomplete state coverage; see `tiger_inventory.json`
 
 ## Caveats

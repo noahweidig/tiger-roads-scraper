@@ -26,6 +26,8 @@ YEARS = {
     'TIGER1999':  ('TIGER1999/',  1, None,          'RT_linefile'),
     'TIGER2002':  ('TIGER2002/',  1, None,          'RT_linefile'),
     'TIGER2003':  ('TIGER2003/',  1, None,          'RT_linefile'),
+    'tiger2005se': ('tiger2005se/', 1, None,        'RT_linefile'),
+    'tiger2006se': ('tiger2006se/', 1, None,        'RT_linefile'),
     'rd_2ktiger': ('rd_2ktiger/', 1, None,          'RT_linefile'),
     'TIGER2007FE':('TIGER2007FE/',2, '_edges.zip',  'shapefile_fe'),
     'TIGER2008':  ('TIGER2008/',  2, '_edges.zip',  'shapefile_tl'),
