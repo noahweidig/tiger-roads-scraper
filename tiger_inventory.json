@@ -3413,7 +3413,7 @@
         "status": "OK"
       },
       "06_CALIFORNIA": {
-        "file_count": 58,
+        "file_count": 56,
         "county_count": 58,
         "formats": [
           "shapefile_fe"
@@ -3462,11 +3462,9 @@
             "status": "OK"
           },
           "06013_Contra_Costa": {
-            "file_count": 1,
-            "formats": [
-              "shapefile_fe"
-            ],
-            "status": "OK"
+            "file_count": 0,
+            "formats": [],
+            "status": "EMPTY"
           },
           "06015_Del_Norte": {
             "file_count": 1,
@@ -3686,11 +3684,9 @@
             "status": "OK"
           },
           "06077_San_Joaquin": {
-            "file_count": 1,
-            "formats": [
-              "shapefile_fe"
-            ],
-            "status": "OK"
+            "file_count": 0,
+            "formats": [],
+            "status": "EMPTY"
           },
           "06079_San_Luis_Obispo": {
             "file_count": 1,
@@ -7090,7 +7086,7 @@
         "status": "OK"
       },
       "18_INDIANA": {
-        "file_count": 92,
+        "file_count": 91,
         "county_count": 92,
         "formats": [
           "shapefile_fe"
@@ -7643,11 +7639,9 @@
             "status": "OK"
           },
           "18157_Tippecanoe": {
-            "file_count": 1,
-            "formats": [
-              "shapefile_fe"
-            ],
-            "status": "OK"
+            "file_count": 0,
+            "formats": [],
+            "status": "EMPTY"
           },
           "18159_Tipton": {
             "file_count": 1,
@@ -11499,7 +11493,7 @@
         "status": "OK"
       },
       "27_MINNESOTA": {
-        "file_count": 87,
+        "file_count": 86,
         "county_count": 87,
         "formats": [
           "shapefile_fe"
@@ -11583,11 +11577,9 @@
             "status": "OK"
           },
           "27023_Chippewa": {
-            "file_count": 1,
-            "formats": [
-              "shapefile_fe"
-            ],
-            "status": "OK"
+            "file_count": 0,
+            "formats": [],
+            "status": "EMPTY"
           },
           "27025_Chisago": {
             "file_count": 1,
@@ -15187,7 +15179,7 @@
         "status": "OK"
       },
       "36_NEW_YORK": {
-        "file_count": 62,
+        "file_count": 61,
         "county_count": 62,
         "formats": [
           "shapefile_fe"
@@ -15299,11 +15291,9 @@
             "status": "OK"
           },
           "36031_Essex": {
-            "file_count": 1,
-            "formats": [
-              "shapefile_fe"
-            ],
-            "status": "OK"
+            "file_count": 0,
+            "formats": [],
+            "status": "EMPTY"
           },
           "36033_Franklin": {
             "file_count": 1,
@@ -15631,7 +15621,7 @@
         "status": "OK"
       },
       "37_NORTH_CAROLINA": {
-        "file_count": 100,
+        "file_count": 99,
         "county_count": 100,
         "formats": [
           "shapefile_fe"
@@ -15673,11 +15663,9 @@
             "status": "OK"
           },
           "37011_Avery": {
-            "file_count": 1,
-            "formats": [
-              "shapefile_fe"
-            ],
-            "status": "OK"
+            "file_count": 0,
+            "formats": [],
+            "status": "EMPTY"
           },
           "37013_Beaufort": {
             "file_count": 1,
@@ -16722,7 +16710,7 @@
         "status": "OK"
       },
       "39_OHIO": {
-        "file_count": 88,
+        "file_count": 87,
         "county_count": 88,
         "formats": [
           "shapefile_fe"
@@ -17072,11 +17060,9 @@
             "status": "OK"
           },
           "39099_Mahoning": {
-            "file_count": 1,
-            "formats": [
-              "shapefile_fe"
-            ],
-            "status": "OK"
+            "file_count": 0,
+            "formats": [],
+            "status": "EMPTY"
           },
           "39101_Marion": {
             "file_count": 1,
@@ -20974,9 +20960,11 @@
             "status": "OK"
           },
           "48231_Hunt": {
-            "file_count": 0,
-            "formats": [],
-            "status": "EMPTY"
+            "file_count": 1,
+            "formats": [
+              "shapefile_fe"
+            ],
+            "status": "OK"
           },
           "48233_Hutchinson": {
             "file_count": 1,
@@ -21070,11 +21058,9 @@
             "status": "OK"
           },
           "48259_Kendall": {
-            "file_count": 1,
-            "formats": [
-              "shapefile_fe"
-            ],
-            "status": "OK"
+            "file_count": 0,
+            "formats": [],
+            "status": "EMPTY"
           },
           "48261_Kenedy": {
             "file_count": 1,
@@ -24685,7 +24671,7 @@
         "status": "OK"
       },
       "72_PUERTO_RICO": {
-        "file_count": 78,
+        "file_count": 77,
         "county_count": 78,
         "formats": [
           "shapefile_fe"
@@ -25231,11 +25217,9 @@
             "status": "OK"
           },
           "72153_Yauco": {
-            "file_count": 1,
-            "formats": [
-              "shapefile_fe"
-            ],
-            "status": "OK"
+            "file_count": 0,
+            "formats": [],
+            "status": "EMPTY"
           }
         },
         "status": "OK"
@@ -25390,7 +25374,7 @@
         "status": "EMPTY"
       }
     },
-    "total_files": 3231,
+    "total_files": 3223,
     "missing_states": [],
     "format": "shapefile_fe",
     "errors": [],
@@ -27727,7 +27711,7 @@
         "status": "OK"
       },
       "12_FLORIDA": {
-        "file_count": 66,
+        "file_count": 67,
         "county_count": 67,
         "formats": [
           "shapefile_tl"
@@ -28021,9 +28005,11 @@
             "status": "OK"
           },
           "12085_Martin_County": {
-            "file_count": 0,
-            "formats": [],
-            "status": "EMPTY"
+            "file_count": 1,
+            "formats": [
+              "shapefile_tl"
+            ],
+            "status": "OK"
           },
           "12086_Miami-Dade_County": {
             "file_count": 1,
@@ -31771,7 +31757,7 @@
         "status": "OK"
       },
       "20_KANSAS": {
-        "file_count": 104,
+        "file_count": 105,
         "county_count": 105,
         "formats": [
           "shapefile_tl"
@@ -31925,9 +31911,11 @@
             "status": "OK"
           },
           "20043_Doniphan_County": {
-            "file_count": 0,
-            "formats": [],
-            "status": "EMPTY"
+            "file_count": 1,
+            "formats": [
+              "shapefile_tl"
+            ],
+            "status": "OK"
           },
           "20045_Douglas_County": {
             "file_count": 1,
@@ -48009,7 +47997,7 @@
         "status": "OK"
       },
       "72_PUERTO_RICO": {
-        "file_count": 77,
+        "file_count": 76,
         "county_count": 78,
         "formats": [
           "shapefile_tl"
@@ -48231,11 +48219,9 @@
             "status": "OK"
           },
           "72061_Guaynabo_Municipio": {
-            "file_count": 1,
-            "formats": [
-              "shapefile_tl"
-            ],
-            "status": "OK"
+            "file_count": 0,
+            "formats": [],
+            "status": "EMPTY"
           },
           "72063_Gurabo_Municipio": {
             "file_count": 1,
@@ -48712,7 +48698,7 @@
         "status": "EMPTY"
       }
     },
-    "total_files": 3230,
+    "total_files": 3231,
     "missing_states": [],
     "format": "shapefile_tl",
     "errors": [],
