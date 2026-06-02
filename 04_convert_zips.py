@@ -1,216 +1,269 @@
+"""Bulletproof TIGER → ESRI Shapefile converter (one shapefile per state/year).
+
+Handles both formats transparently:
+  • RT line files (1992/1999/2000/2002/2003/2005se/2006se) — GDAL TIGER driver
+    reads the extracted record-type dir; we pull the CompleteChain (roads) layer.
+  • Modern shapefile zips (2007FE/2008 *_edges.zip) — reproject the inner .shp.
+
+Robustness contract: NOTHING aborts the whole run. Every zip, county, and state
+is isolated in try/except; failures are logged and skipped; partial output is
+still produced; reruns are idempotent (existing outputs are skipped). ogr2ogr is
+retried w/ backoff and falls back (layer→whole-src, reproject→raw) before giving
+up. -skipfailures keeps bad features from killing a file.
+"""
 import os
-import subprocess
-import zipfile
-import shutil
 import re
+import time
+import shutil
+import zipfile
+import subprocess
 from pathlib import Path
 from collections import defaultdict
 
-# ── Config ── (override via env vars)
-DOWNLOAD_DIR = Path(os.environ.get("TIGER_DOWNLOAD_DIR", "tiger_downloads"))
-SHAPEFILE_DIR = Path(os.environ.get("TIGER_SHAPEFILE_DIR", "tiger_shapefiles"))
-TEMP_DIR = Path(os.environ.get("TIGER_TEMP_DIR", "tiger_temp"))
+# ── Config ── (defaults match 03's hardcoded D:/roads pattern; env-overridable)
+DL = Path(os.environ.get("TIGER_DOWNLOAD_DIR", "D:/roads"))
+SHP = Path(os.environ.get("TIGER_SHAPEFILE_DIR", "D:/roads_shapefiles"))
+TMP = Path(os.environ.get("TIGER_TEMP_DIR", "D:/roads_temp"))
 KEEP_ZIPS = True
+EPSG = "EPSG:4326"
+OGR_TRIES = 3
+FAIL_LOG = Path("conversion_failures.txt")
 
-for d in [SHAPEFILE_DIR, TEMP_DIR]:
+for d in (SHP, TMP):
     d.mkdir(parents=True, exist_ok=True)
 
-RT_FORMAT_PREFIXES = ['TIGER1992', 'TIGER1999', 'TIGER2002', 'TIGER2003', 'rd_2ktiger']
+# Path/name fragments that mark RT (older) format vs modern shapefile zips.
+RT_TAGS = ['tiger1992', 'tiger1999', 'tiger2002', 'tiger2003',
+           'tiger2005se', 'tiger2006se', 'rd_2ktiger']
+# All year tags we bucket output by (RT + modern).
+YEAR_TAGS = RT_TAGS + ['tiger2007fe', 'tiger2008']
 
-def is_rt_format(path_str):
-    return any(p.lower() in path_str.lower() for p in RT_FORMAT_PREFIXES)
+# Census state/territory FIPS (incl. terr. 60/66/69/72/78).
+FIPS = {f"{n:02d}" for n in (
+    1,2,4,5,6,8,9,10,11,12,13,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,
+    31,32,33,34,35,36,37,38,39,40,41,42,44,45,46,47,48,49,50,51,53,54,55,56,
+    60,66,69,72,78)}
 
-# US state/territory FIPS codes (2-digit). Source: Census Bureau.
-VALID_STATE_FIPS = {
-    '01','02','04','05','06','08','09','10','11','12','13','15','16','17','18',
-    '19','20','21','22','23','24','25','26','27','28','29','30','31','32','33',
-    '34','35','36','37','38','39','40','41','42','44','45','46','47','48','49',
-    '50','51','53','54','55','56',
-    # territories
-    '60','66','69','72','78',
-}
-
-# Anchor to known TIGER filename layouts:
-#   tl_YYYY_SSCCC_*  /  tl_YYYY_SS_*       (2007+ shapefile)
-#   fe_YYYY_SS_*     /  fe_YYYY_SSCCC_*    (2007 FE shapefile)
-#   tgrSSCCC.zip     /  tgrSSCCC*.zip      (RT linefile)
-#   SSCCC_*.zip                            (RT linefile, bare digits)
-_FIPS_PATTERNS = [
-    re.compile(r'^(?:tl|fe)_\d{4}_(\d{2})(?:\d{3})?(?:_|\b)', re.IGNORECASE),
-    re.compile(r'^tgr(\d{2})\d{3}', re.IGNORECASE),
-    re.compile(r'^(\d{2})\d{3}(?:_|\.|\b)'),
-]
+# FIPS extractors for known layouts: tl_/fe_YYYY_SS[CCC]_*, tgrSSCCC, bare SSCCC.
+_PAT = [re.compile(r'^(?:tl|fe)_\d{4}_(\d{2})(?:\d{3})?(?:_|\b)', re.I),
+        re.compile(r'^tgr(\d{2})\d{3}', re.I),
+        re.compile(r'^(\d{2})\d{3}(?:_|\.|\b)')]
 
 
-def get_state_fips(filename):
-    for pat in _FIPS_PATTERNS:
-        m = pat.search(filename)
-        if m and m.group(1) in VALID_STATE_FIPS:
+def state_fips(name):
+    for p in _PAT:
+        m = p.search(name)
+        if m and m.group(1) in FIPS:
             return m.group(1)
     return None
 
-def get_year_tag(path_str):
-    for prefix in RT_FORMAT_PREFIXES + ['TIGER2007FE', 'TIGER2008']:
-        if prefix.lower() in path_str.lower():
-            return prefix
+
+def year_tag(s):
+    s = s.lower()
+    for t in YEAR_TAGS:
+        if t in s:
+            return t
     return 'unknown'
 
-def extract_zip(zip_path, extract_dir):
+
+def is_rt(s):
+    s = s.lower()
+    return any(t in s for t in RT_TAGS)
+
+
+def rm(p):
+    shutil.rmtree(p, ignore_errors=True)
+
+
+def rm_shp(shp):
+    """Drop a shapefile sidecar set so a clean retry can recreate it."""
+    for ext in ('.shp', '.shx', '.dbf', '.prj', '.cpg', '.qix'):
+        Path(str(shp)[:-4] + ext).unlink(missing_ok=True)
+
+
+def log_fail(item, why):
+    with FAIL_LOG.open('a') as f:
+        f.write(f"{item}\t{why}\n")
+
+
+def safe_extract(zip_path, dest):
+    """Extract, refusing path-traversal members. False on any problem."""
     if not zipfile.is_zipfile(zip_path):
-        print(f"  UNZIP FAILED: {zip_path} — not a valid zip file")
         return False
     try:
-        extract_root = Path(extract_dir).resolve()
-        with zipfile.ZipFile(zip_path, 'r') as z:
-            for member in z.namelist():
-                dest = (extract_root / member).resolve()
-                if not dest.is_relative_to(extract_root):
-                    raise ValueError(f"unsafe zip member path: {member}")
-            z.extractall(extract_dir)
+        root = Path(dest).resolve()
+        with zipfile.ZipFile(zip_path) as z:
+            for m in z.namelist():
+                if not (root / m).resolve().is_relative_to(root):
+                    return False
+            z.extractall(dest)
         return True
     except Exception as e:
-        print(f"  UNZIP FAILED: {zip_path} — {e}")
+        log_fail(zip_path, f"unzip: {e}")
         return False
 
-def convert_rt_to_shp(zip_path, out_shp):
-    extract_dir = TEMP_DIR / zip_path.stem
-    extract_dir.mkdir(exist_ok=True)
-    if not extract_zip(zip_path, extract_dir):
-        shutil.rmtree(extract_dir, ignore_errors=True)
-        return False
-    cmd = [
-        "ogr2ogr",
-        "-f", "ESRI Shapefile",
-        "-t_srs", "EPSG:4326",
-        str(out_shp),
-        str(extract_dir),
-        "CompleteChain"
-    ]
-    result = subprocess.run(cmd, capture_output=True, text=True)
-    shutil.rmtree(extract_dir, ignore_errors=True)
-    if result.returncode != 0:
-        print(f"  OGR2OGR FAILED: {zip_path.stem}\n  {result.stderr}")
-        return False
-    return True
 
-def convert_shp_zip(zip_path, out_shp):
-    extract_dir = TEMP_DIR / zip_path.stem
-    extract_dir.mkdir(exist_ok=True)
-    if not extract_zip(zip_path, extract_dir):
-        shutil.rmtree(extract_dir, ignore_errors=True)
-        return False
-    shp_files = list(extract_dir.glob("*.shp"))
-    if not shp_files:
-        print(f"  NO SHP FOUND: {extract_dir}")
-        shutil.rmtree(extract_dir, ignore_errors=True)
-        return False
-    cmd = [
-        "ogr2ogr",
-        "-f", "ESRI Shapefile",
-        "-t_srs", "EPSG:4326",
-        str(out_shp),
-        str(shp_files[0])
-    ]
-    result = subprocess.run(cmd, capture_output=True, text=True)
-    shutil.rmtree(extract_dir, ignore_errors=True)
-    if result.returncode != 0:
-        print(f"  OGR2OGR FAILED: {zip_path.stem}\n  {result.stderr}")
-        return False
-    return True
+def ogr(args):
+    """Run ogr2ogr w/ retries+backoff. Returns (ok, stderr)."""
+    err = ""
+    for a in range(OGR_TRIES):
+        try:
+            r = subprocess.run(["ogr2ogr", *args], capture_output=True, text=True)
+            if r.returncode == 0:
+                return True, ""
+            err = r.stderr.strip()
+        except Exception as e:
+            err = str(e)
+        time.sleep(2 ** a)
+    return False, err
 
-def merge_and_zip_by_state(year_tag, state_fips, shp_list, out_zip):
-    if out_zip.exists():
-        print(f"    SKIP {out_zip.name} (already exists)")
+
+def to_shp(out, src, layer=None):
+    """Make `out` from `src` (+optional layer). Try reproject→raw fallback."""
+    tail = [str(out), str(src)] + ([layer] if layer else [])
+    base = ["-f", "ESRI Shapefile", "-skipfailures"]
+    ok, _ = ogr(["-t_srs", EPSG, *base, *tail])
+    if ok:
         return True
-    merge_dir = TEMP_DIR / f"{year_tag}_{state_fips}_merge"
-    merge_dir.mkdir(exist_ok=True)
-    merged_shp = merge_dir / f"{year_tag}_{state_fips}.shp"
-    for i, shp in enumerate(shp_list):
-        if i == 0:
-            cmd = ["ogr2ogr", "-f", "ESRI Shapefile", str(merged_shp), str(shp)]
+    rm_shp(out)                                   # ditch partial before retry
+    ok, err = ogr([*base, *tail])                 # last resort: skip reprojection
+    if not ok:
+        log_fail(src, f"ogr2ogr: {err}")
+    return ok
+
+
+def list_layers(src):
+    try:
+        r = subprocess.run(["ogrinfo", "-ro", "-q", str(src)],
+                           capture_output=True, text=True, timeout=120)
+        if r.returncode != 0:
+            return []
+        return [m.group(1) for m in
+                (re.match(r'^\s*\d+:\s+(\S+)', ln) for ln in r.stdout.splitlines()) if m]
+    except Exception:
+        return []
+
+
+def convert_rt(zip_path, out):
+    ed = TMP / zip_path.stem
+    rm(ed); ed.mkdir(parents=True, exist_ok=True)
+    if not safe_extract(zip_path, ed):
+        rm(ed); return False
+    lyrs = list_layers(ed)
+    layer = (next((l for l in lyrs if l.lower() == 'completechain'), None)
+             or next((l for l in lyrs if 'chain' in l.lower()), None)
+             or (lyrs[0] if lyrs else 'CompleteChain'))
+    ok = to_shp(out, ed, layer)
+    if not ok:                                    # fallback: let GDAL pick layer
+        rm_shp(out); ok = to_shp(out, ed)
+    rm(ed)
+    return ok
+
+
+def convert_shp(zip_path, out):
+    ed = TMP / zip_path.stem
+    rm(ed); ed.mkdir(parents=True, exist_ok=True)
+    if not safe_extract(zip_path, ed):
+        rm(ed); return False
+    shps = list(ed.rglob("*.shp"))                # rglob: tolerate nesting
+    ok = to_shp(out, shps[0]) if shps else False
+    if not shps:
+        log_fail(zip_path, "no .shp in archive")
+    rm(ed)
+    return ok
+
+
+def merge_state(tag, fips, shps, out_zip):
+    """Merge all county shps for a state into one shapefile, then zip it.
+    Bad/missing counties are skipped; the state output is still produced."""
+    if out_zip.exists():
+        print(f"    SKIP {out_zip.name} (exists)")
+        return True
+    md = TMP / f"{tag}_{fips}_m"
+    rm(md); md.mkdir(parents=True, exist_ok=True)
+    msh = md / f"{tag}_{fips}.shp"
+    created, nfail = False, 0
+    for shp in shps:
+        if not Path(shp).exists():
+            nfail += 1; continue
+        if not created:
+            ok, err = ogr(["-f", "ESRI Shapefile", "-skipfailures", str(msh), str(shp)])
+            created = ok
         else:
-            cmd = ["ogr2ogr", "-f", "ESRI Shapefile", "-update", "-append",
-                   str(merged_shp), str(shp), "-nln", merged_shp.stem]
-        result = subprocess.run(cmd, capture_output=True, text=True)
-        if result.returncode != 0:
-            shutil.rmtree(merge_dir, ignore_errors=True)
-            raise RuntimeError(
-                f"MERGE FAILED for {year_tag}/{state_fips} on {shp}:\n{result.stderr}"
-            )
-    with zipfile.ZipFile(out_zip, 'w', zipfile.ZIP_DEFLATED) as zf:
-        for f in merge_dir.iterdir():
-            zf.write(f, f.name)
-    shutil.rmtree(merge_dir, ignore_errors=True)
-    print(f"    ZIPPED: {out_zip.name}")
+            ok, err = ogr(["-f", "ESRI Shapefile", "-update", "-append",
+                          "-skipfailures", str(msh), str(shp), "-nln", msh.stem])
+        if not ok:
+            nfail += 1; log_fail(shp, f"merge {tag}/{fips}: {err}")
+    if not created:
+        rm(md); log_fail(f"{tag}/{fips}", "no county merged"); return False
+    try:
+        with zipfile.ZipFile(out_zip, 'w', zipfile.ZIP_DEFLATED) as zf:
+            for f in md.iterdir():
+                zf.write(f, f.name)
+    except Exception as e:
+        rm(md); log_fail(out_zip, f"zip: {e}"); return False
+    rm(md)
+    print(f"    ZIPPED {out_zip.name}" + (f" ({nfail} counties skipped)" if nfail else ""))
     return True
 
 
-def check_ogr2ogr():
-    try:
-        subprocess.run(
-            ["ogr2ogr", "--version"],
-            check=True, capture_output=True, text=True,
-        )
-    except (FileNotFoundError, subprocess.CalledProcessError) as e:
-        raise SystemExit(f"ERROR: ogr2ogr is required but not available — {e}")
+def check_tools():
+    for t in ("ogr2ogr", "ogrinfo"):
+        if shutil.which(t) is None:
+            raise SystemExit(f"ERROR: {t} (GDAL) required but not found on PATH.")
 
-def convert_all():
-    check_ogr2ogr()
-    failed = []
-    zips = list(DOWNLOAD_DIR.rglob("*.zip"))
-    print(f"\nConverting {len(zips)} zip files...")
 
-    converted = defaultdict(lambda: defaultdict(list))
-    county_shp_dir = TEMP_DIR / "county_shps"
-    county_shp_dir.mkdir(exist_ok=True)
+def main():
+    check_tools()
+    FAIL_LOG.unlink(missing_ok=True)
+    zips = list(DL.rglob("*.zip"))
+    print(f"\nConverting {len(zips)} zips from {DL.resolve()} ...")
 
-    for i, zip_path in enumerate(zips):
-        print(f"  [{i+1}/{len(zips)}] {zip_path.name}", flush=True)
-        state_fips = get_state_fips(zip_path.stem)
-        year_tag = get_year_tag(str(zip_path))
+    done = defaultdict(lambda: defaultdict(list))
+    cdir = TMP / "county_shps"
+    cdir.mkdir(parents=True, exist_ok=True)
 
-        if not state_fips:
-            print(f"    SKIP — could not parse state FIPS from {zip_path.name}")
-            continue
+    for i, zp in enumerate(zips, 1):
+        try:
+            print(f"  [{i}/{len(zips)}] {zp.name}", flush=True)
+            fips = state_fips(zp.stem)
+            tag = year_tag(str(zp))
+            if not fips:
+                print(f"    SKIP — no state FIPS in {zp.name}")
+                log_fail(zp, "no FIPS"); continue
+            out = cdir / tag / fips / f"{zp.stem}.shp"
+            out.parent.mkdir(parents=True, exist_ok=True)
+            if out.exists():
+                print("    SKIP (already converted)")
+                done[tag][fips].append(out); continue
+            ok = convert_rt(zp, out) if is_rt(str(zp)) else convert_shp(zp, out)
+            if ok:
+                done[tag][fips].append(out)
+                if not KEEP_ZIPS:
+                    zp.unlink(missing_ok=True)
+        except Exception as e:                    # absolute backstop per file
+            log_fail(zp, f"unexpected: {e}")
+            print(f"    ERROR (logged): {e}")
 
-        out_shp = county_shp_dir / year_tag / state_fips / f"{zip_path.stem}.shp"
-        out_shp.parent.mkdir(parents=True, exist_ok=True)
-
-        if out_shp.exists():
-            print(f"    SKIP (already converted)")
-            converted[year_tag][state_fips].append(out_shp)
-            continue
-
-        if is_rt_format(str(zip_path)):
-            success = convert_rt_to_shp(zip_path, out_shp)
-        else:
-            success = convert_shp_zip(zip_path, out_shp)
-
-        if success:
-            converted[year_tag][state_fips].append(out_shp)
-            if not KEEP_ZIPS:
-                zip_path.unlink()
-        else:
-            failed.append(str(zip_path))
-
-    print("\nMerging and zipping by state...")
-    for year_tag, states in converted.items():
-        year_out = SHAPEFILE_DIR / year_tag
-        year_out.mkdir(exist_ok=True)
-        for state_fips, shp_list in states.items():
-            if not shp_list:
+    print("\nMerging + zipping by state ...")
+    for tag, states in done.items():
+        yo = SHP / tag
+        yo.mkdir(parents=True, exist_ok=True)
+        for fips, shps in states.items():
+            if not shps:
                 continue
-            out_zip = year_out / f"{year_tag}_{state_fips}.zip"
-            print(f"  {year_tag} / state {state_fips} — {len(shp_list)} counties", flush=True)
-            merge_and_zip_by_state(year_tag, state_fips, shp_list, out_zip)
+            print(f"  {tag} / {fips} — {len(shps)} counties", flush=True)
+            try:
+                merge_state(tag, fips, shps, yo / f"{tag}_{fips}.zip")
+            except Exception as e:                # backstop per state
+                log_fail(f"{tag}/{fips}", f"merge unexpected: {e}")
+                print(f"    ERROR (logged): {e}")
 
-    if failed:
-        with open('conversion_failures.txt', 'w') as f:
-            for p in failed:
-                f.write(p + '\n')
-        print(f"\n{len(failed)} conversions failed — see conversion_failures.txt")
+    if FAIL_LOG.exists():
+        n = sum(1 for _ in FAIL_LOG.open())
+        print(f"\n{n} issues logged → {FAIL_LOG} (run is still complete; rerun to retry)")
+    print(f"\nDone. Per-state zipped shapefiles in: {SHP.resolve()}")
 
-    print(f"\nDone. Zipped shapefiles in: {SHAPEFILE_DIR}")
 
 if __name__ == "__main__":
-    convert_all()
+    main()
