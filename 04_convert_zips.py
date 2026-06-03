@@ -21,7 +21,7 @@ from pathlib import Path
 from collections import defaultdict
 
 # ── Config ── (defaults match 03's hardcoded D:/roads pattern; env-overridable)
-DL = Path(os.environ.get("TIGER_DOWNLOAD_DIR", "D:/roads"))
+DL = Path("D:/roads")
 SHP = Path(os.environ.get("TIGER_SHAPEFILE_DIR", "D:/roads_shapefiles"))
 TMP = Path(os.environ.get("TIGER_TEMP_DIR", "D:/roads_temp"))
 KEEP_ZIPS = True
