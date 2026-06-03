@@ -23,6 +23,14 @@ def get_links(url, retries=5):
     return None
 
 
+def matches_suffix(filename, suffix=None):
+    """Case-insensitive suffix match. Some archive years (e.g. tiger2006se)
+    name files uppercase TGR01001.ZIP while others use lowercase .zip, so a
+    case-sensitive endswith('.zip') silently drops a whole year."""
+    f = filename.lower()
+    return f.endswith(suffix.lower()) if suffix else f.endswith('.zip')
+
+
 def clean_folders(links):
     if links is None:
         return []

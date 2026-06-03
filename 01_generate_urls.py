@@ -1,7 +1,7 @@
 # generate_urls.py
 import time
 
-from tiger_utils import clean_folders, get_links
+from tiger_utils import clean_folders, get_links, matches_suffix
 
 base = "https://www2.census.gov/geo/tiger/"
 
@@ -22,9 +22,7 @@ def retry_failed(failed_list, suffix_filter=None):
                 f.write(url + '\n')
             continue
         for f in files:
-            if suffix_filter and f.endswith(suffix_filter):
-                urls.append(url + f)
-            elif not suffix_filter and f.endswith('.zip'):
+            if matches_suffix(f, suffix_filter):
                 urls.append(url + f)
     return urls
 
@@ -40,12 +38,8 @@ def scrape_year(year_folder, suffix_filter=None):
             failed.append((year_folder, sf))
             continue
         for f in files:
-            if suffix_filter:
-                if f.endswith(suffix_filter):
-                    urls.append(base + year_folder + sf + f)
-            else:
-                if f.endswith('.zip'):
-                    urls.append(base + year_folder + sf + f)
+            if matches_suffix(f, suffix_filter):
+                urls.append(base + year_folder + sf + f)
     urls += retry_failed(failed, suffix_filter=suffix_filter)
     return urls
 
@@ -64,12 +58,8 @@ def scrape_year_two_level(year_folder, suffix_filter=None):
                 failed.append((year_folder, sf + cf))
                 continue
             for f in files:
-                if suffix_filter:
-                    if f.endswith(suffix_filter):
-                        urls.append(base + year_folder + sf + cf + f)
-                else:
-                    if f.endswith('.zip'):
-                        urls.append(base + year_folder + sf + cf + f)
+                if matches_suffix(f, suffix_filter):
+                    urls.append(base + year_folder + sf + cf + f)
     urls += retry_failed(failed, suffix_filter=suffix_filter)
     return urls
 
