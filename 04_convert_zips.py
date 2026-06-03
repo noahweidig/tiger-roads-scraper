@@ -216,7 +216,8 @@ def check_tools():
 def main():
     check_tools()
     FAIL_LOG.unlink(missing_ok=True)
-    zips = list(DL.rglob("*.zip"))
+    # Case-insensitive: tiger2006se ships uppercase TGR01001.ZIP.
+    zips = [p for p in DL.rglob("*") if p.is_file() and p.suffix.lower() == ".zip"]
     print(f"\nConverting {len(zips)} zips from {DL.resolve()} ...")
 
     done = defaultdict(lambda: defaultdict(list))
