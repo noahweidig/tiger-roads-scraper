@@ -1,7 +1,7 @@
 # check_urls.py
 from collections import defaultdict
 
-from tiger_utils import clean_folders, get_links
+from tiger_utils import clean_folders, get_links, matches_suffix
 
 base = "https://www2.census.gov/geo/tiger/"
 
@@ -68,11 +68,8 @@ for year_key, (folder, depth, suffix, fmt) in YEARS.items():
                 report[year_key]['errors'].append(f"FAILED: {sf}")
                 report[year_key]['states'][state_key] = {'file_count': 0, 'status': 'FAILED'}
                 continue
-            if suffix:
-                zips = [f for f in files if f.endswith(suffix)]
-            else:
-                zips = [f for f in files if f.endswith('.zip')]
-            
+            zips = [f for f in files if matches_suffix(f, suffix)]
+
             formats = list(set(infer_format(f) for f in zips))
             count = len(zips)
             year_total += count
@@ -101,10 +98,7 @@ for year_key, (folder, depth, suffix, fmt) in YEARS.items():
                     report[year_key]['errors'].append(f"FAILED: {sf}{cf}")
                     county_report[county_key] = {'file_count': 0, 'status': 'FAILED'}
                     continue
-                if suffix:
-                    zips = [f for f in files if f.endswith(suffix)]
-                else:
-                    zips = [f for f in files if f.endswith('.zip')]
+                zips = [f for f in files if matches_suffix(f, suffix)]
 
                 formats = list(set(infer_format(f) for f in zips))
                 state_formats.update(formats)
