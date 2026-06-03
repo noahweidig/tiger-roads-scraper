@@ -22,7 +22,7 @@ from requests.adapters import HTTPAdapter
 from urllib3.util.retry import Retry
 
 URLS_FILE = Path("urls.txt")
-DOWNLOAD_DIR = Path(os.environ.get("TIGER_DOWNLOAD_DIR", "D:/roads"))
+DOWNLOAD_DIR = Path("D:/roads")
 LOG_DIR = Path("logs")
 
 FAIL_LOG = LOG_DIR / "download_failures.txt"
