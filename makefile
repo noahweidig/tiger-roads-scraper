@@ -19,7 +19,8 @@ convert:
 
 clean:
 	rm -f urls.txt failed_urls.txt aria2_session.txt incomplete_urls.txt \
-	      conversion_failures.txt tiger_inventory.json tiger_inventory_errors.txt
+	      conversion_failures.txt conversion_report.json \
+	      tiger_inventory.json tiger_inventory_errors.txt
 	rm -rf logs/
 
 clean-logs:
