@@ -89,14 +89,24 @@ KEEP_ZIPS = True      # Preserve raw zips post-conversion (default: delete)
 
 ## Conversion process
 
-1. **Unzip** each downloaded archive
-2. **ogr2ogr** → ESRI Shapefile format:
-   - Detects format (TIGER92-era `RT` records vs. TIGER2007+ `RD` records) automatically
-   - Filters to road features only
-3. **Merge** county zips by state (e.g., all CA counties → single CA shapefile)
-4. **Reproject** to EPSG:4326
-5. **Re-zip** per-state output
-6. (Optional) delete raw zips per `KEEP_ZIPS` setting
+1. **Group** every downloaded zip by (year, state FIPS)
+2. **Unzip** each county archive
+3. **Filter to roads**, using the layer's real schema rather than the year:
+   - `ROADFLG='Y'` on 2007FE/2008 edges (equivalently `MTFCC` `S*`)
+   - `CFCC` `A*` on the RT-era `CompleteChain` layer
+   - no filter if neither field exists (degrade to keeping everything, never to
+     emitting nothing)
+4. **ogr2ogr append** straight into the state shapefile, reprojecting to
+   EPSG:4326 — no intermediate per-county shapefile is written
+5. **Dedup** on `TLID` to drop the few chains repeated across county lines
+6. **Re-zip** per-state output
+7. (Optional) delete raw zips per `KEEP_ZIPS` setting
+
+Filtering is not cosmetic. `CompleteChain` and the modern `edges` layer both
+carry every edge type, not just roads — measured on Rhode Island county 44001,
+an unfiltered extract is **15% non-road in 2002** (3430 roads of 4018 chains)
+and **27% non-road in 2008** (3908 roads of 5341 edges): rail, hydrography, and
+invisible boundary lines.
 
 ## Output structure
 
@@ -129,6 +139,12 @@ Each zip contains merged ESRI Shapefile set (`.shp`, `.shx`, `.dbf`, `.prj`) for
 - `make retry` retries failed URLs (same session or fresh); skips already-complete files
 - Partial `.part` files auto-resume next run
 - Conversion failures logged to `conversion_failures.txt` at end of step 4
+- Per-state conversion tallies (counties merged, features, dups removed,
+  counties failed) written to `conversion_report.json`
+- Conversion resumes at two levels: a finished state is skipped outright, and a
+  state interrupted mid-merge records which counties it already absorbed in
+  `<temp>/states/<year>_<fips>/absorbed.json`, so a rerun neither redoes them
+  nor double-counts them
 
 ## Performance notes
 
@@ -169,15 +185,52 @@ sudo apt install gdal-bin
 
 ## Data notes
 
-- **TIGER1992, 1999, 2002, 2003, rd_2ktiger (2000), tiger2005se, tiger2006se:** RT line-file format (older record structure; GDAL TIGER driver reads the extracted record-type dir, `CompleteChain` layer = roads)
+- **TIGER1992, 1999, 2002, 2003, rd_2ktiger (2000), tiger2005se, tiger2006se:** RT line-file format (older record structure; GDAL TIGER driver reads the extracted record-type dir, `CompleteChain` layer = all chains, `CFCC` `A*` = roads)
 - **TIGER2007FE, 2008:** modern shapefile zips (`*_edges.zip`)
 - Auto-detected; conversion handles both transparently
+
+**Every year nests and names its files differently.** These are the layouts on
+`www2.census.gov`, all confirmed against live directory listings, and all
+resolved by the converter's FIPS extractor (filename first, then any ancestor
+directory):
+
+| Year | State directory | County filename |
+|------|-----------------|-----------------|
+| TIGER1992 | `44/` (bare FIPS) | `44001.zip` (no prefix) |
+| TIGER1999 | `RI/` (abbrev only) | `tgr44001.zip` |
+| rd_2ktiger | `RI/` (abbrev only) | `tgr44001.zip` |
+| TIGER2002 | `44_ri/` | `tgr44001.zip` |
+| TIGER2003 | `44_RI/` | `tgr44001.zip` |
+| tiger2005se | `44_RI/` | `tgr44001.zip` |
+| tiger2006se | `RI/` (abbrev only) | `TGR44001.ZIP` (uppercase) |
+| TIGER2007FE | `44_RHODE_ISLAND/44001_Bristol/` | `fe_2007_44001_edges.zip` |
+| TIGER2008 | `44_RHODE_ISLAND/44001_Bristol_County/` | `tl_2008_44001_edges.zip` |
+
+The abbreviation-only years (1999, rd_2ktiger, 2006se) carry no state number
+anywhere in the path, so the converter maps USPS abbreviations to FIPS. TIGER1992
+additionally stores records as `.F51`/`.F52` rather than `.RT1`/`.RT2`; the GDAL
+TIGER driver reads both, including the RT2/F52 shape points that give chains
+their intermediate vertices.
 - Converter never hard-fails: each zip/county/state is isolated, ogr2ogr is retried with backoff (layer→whole-source, reproject→raw fallbacks), bad features are skipped (`-skipfailures`), and all issues are logged to `conversion_failures.txt` while valid output is still produced. Reruns are idempotent.
 - Some years have incomplete state coverage; see `tiger_inventory.json`
 
 ## Caveats
 
-- No validation of topology or geometry (raw Census data)
-- County-level zips merged spatially without conflict resolution (overlaps possible)
-- Projection metadata (`.prj`) reprojected but may differ from original; validate for critical work
+- Geometry is Census-authored and not rebuilt. It does not need to be: TIGER
+  county files are already node-clean. Verified on RI samples from all nine
+  years — chains meet at exactly coincident endpoints, and every output has
+  zero zero-length geometries, zero duplicate geometries, and zero duplicate
+  TLIDs.
+- ~17–25% of nodes are single-degree (dangles). That is inherent to the source
+  — cul-de-sacs, stub ends, and roads cut at the state line — not a conversion
+  artifact.
+- County files *partition* chains rather than duplicating them along shared
+  borders, so a state merge is nearly clean on its own; the handful of
+  cross-county repeats that do occur are removed by the `TLID` dedup pass
+  (1 of 70,058 for RI/2002, 3 of 70,967 for RI/2008).
+- ESRI Shapefile caps each component file at 2 GB. Merged TIGER roads run
+  ~110 B/feature in `.shp` and ~195 B/feature in `.dbf`, so the `.dbf` binds
+  first at roughly 11M features per state. The converter warns above 8M.
+- Reprojection NAD83 → WGS84 is a null transform in GDAL: it rewrites the
+  `.prj` without moving a vertex, so node coincidence survives it exactly.
 - Network failures can orphan partial downloads; `make retry` or delete `.part` files manually
