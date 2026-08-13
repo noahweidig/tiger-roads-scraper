@@ -170,10 +170,3 @@ def write_geojson(directory, out_path, cfcc_prefix=None):
             n += 1
         fh.write("]}")
     return n
-
-
-if __name__ == "__main__":
-    import sys
-    src, dst = sys.argv[1], sys.argv[2]
-    pref = sys.argv[3] if len(sys.argv) > 3 else None
-    print(write_geojson(src, dst, pref), "features →", dst)

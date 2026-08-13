@@ -35,10 +35,10 @@ def list_folders(url):
     """
     links = get_links(url)
     if links is None:
-        raise IOError(f"could not list {url}")
+        raise OSError(f"could not list {url}")
     folders = clean_folders(links)
     if not folders:
-        raise IOError(f"no subfolders listed at {url}")
+        raise OSError(f"no subfolders listed at {url}")
     return folders
 
 
@@ -68,7 +68,7 @@ def scrape_year_two_level(year_folder, suffix_filter=None):
         print(f"  {sf}", flush=True)
         try:
             county_folders = list_folders(base + year_folder + sf)
-        except IOError as e:                     # one state, not the whole year
+        except OSError as e:                     # one state, not the whole year
             print(f"  STATE FAILED: {sf} — {e}")
             with open('failed_urls.txt', 'a') as fh:
                 fh.write(f"{base + year_folder + sf}\tSTATE_ERROR: {e}\n")
