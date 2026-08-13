@@ -1,9 +1,15 @@
 """TIGER → ESRI Shapefile converter: one roads shapefile per state/year.
 
 Handles both archive eras transparently:
-  • RT line files (1992/1999/2000/2002/2003/2005se/2006se) — GDAL TIGER driver
-    reads the extracted record-type directory; roads are the CompleteChain
-    layer filtered to CFCC 'A*' (A = road; B rail, F boundary, H hydro, ...).
+  • RT line files (1992/1999/2000/2002/2003/2005se/2006se) — the CompleteChain
+    of the extracted record-type directory, filtered to CFCC 'A*' (A = road;
+    B rail, F boundary, H hydro, ...). GDAL removed the OGR TIGER driver in
+    3.11 (RFC 108) and restored it in 3.13, so on a GDAL in that window every
+    one of these seven years read as an unopenable datasource and produced
+    nothing. Whenever the driver is missing — or fails on a particular
+    archive — tiger_rt.py parses the RT1/RT2 records directly and hands
+    ogr2ogr GeoJSON instead; its output is byte-identical to the driver's on
+    every year sampled (1992, 2000, 2002, 2003, 2005se, 2006se).
   • Modern shapefile zips (2007FE/2008 *_edges.zip) — the edges layer holds all
     edge types; roads are ROADFLG='Y' (equivalently MTFCC 'S*').
 
@@ -39,6 +45,8 @@ import zipfile
 import subprocess
 from pathlib import Path
 from collections import defaultdict
+
+import tiger_rt
 
 # ── Config ── (defaults match 03's hardcoded D:/roads pattern; env-overridable)
 DL = Path(os.environ.get("TIGER_DOWNLOAD_DIR", "D:/roads"))
@@ -118,11 +126,22 @@ def state_fips(zp):
     return None
 
 
+# Filename-level year signatures, used when the archive year is not in the
+# path (files pulled outside the step-3 layout, or a flattened download dir).
+# Without this, 2007FE and 2008 both bucket as 'unknown' and merge into ONE
+# output per state — which is exactly what the last run's report shows: 56
+# 'unknown' states holding two years' counties each.
+_FILE_YEAR = re.compile(r'^(?:fe|tl)_(\d{4})_', re.I)
+
+
 def year_tag(s):
-    s = s.lower()
+    low = s.lower()
     for t in YEAR_TAGS:
-        if t in s:
+        if t in low:
             return t
+    m = _FILE_YEAR.match(Path(s).name)
+    if m:
+        return {'2007': 'tiger2007fe'}.get(m.group(1), f"tiger{m.group(1)}")
     return 'unknown'
 
 
@@ -222,9 +241,25 @@ def road_filter(src, layer):
     return None
 
 
+def rt_geojson(zip_path, ed):
+    """Parse RT1/RT2 ourselves → roads-only GeoJSON. (path, layer, None)."""
+    gj = Path(ed) / f"{Path(zip_path).stem}_chains.json"
+    try:
+        n = tiger_rt.write_geojson(ed, gj, cfcc_prefix='A')
+    except Exception as e:
+        log_fail(zip_path, f"RT parse: {e}")
+        return None
+    if not n:
+        log_fail(zip_path, "RT parse: no road chains found")
+        return None
+    return str(gj), gj.stem, None
+
+
 def road_source(zip_path, ed):
     """(datasource, layer, where) for the roads in an extracted archive."""
     if is_rt(str(zip_path)):
+        if not HAVE_TIGER_DRIVER:
+            return rt_geojson(zip_path, ed)
         lyrs = layers(ed)
         names = [n for n, _ in lyrs]
         layer = (next((n for n in names if n.lower() == 'completechain'), None)
@@ -233,8 +268,9 @@ def road_source(zip_path, ed):
             # Last resort: first line layer in the record-type directory.
             layer = next((n for n, g in lyrs if 'line' in g), None)
         if not layer:
-            log_fail(zip_path, f"no CompleteChain layer (saw {names})")
-            return None
+            # The driver exists but choked on this archive; read it ourselves
+            # rather than dropping the county.
+            return rt_geojson(zip_path, ed)
         return str(ed), layer, road_filter(ed, layer)
     shps = list(Path(ed).rglob("*.shp"))            # rglob: tolerate nesting
     if not shps:
@@ -379,10 +415,26 @@ def build_state(tag, fips, zips, out_zip):
             "features": kept, "dup_removed": removed, "counties_failed": nfail}
 
 
+def have_tiger_driver():
+    """Is the OGR TIGER driver in this GDAL build? (absent in 3.11 and 3.12)"""
+    rc, out, _ = run(["ogrinfo", "--formats"], timeout=120)
+    return rc == 0 and any(re.search(r'\bTIGER\b', ln) for ln in out.splitlines())
+
+
+HAVE_TIGER_DRIVER = False
+
+
 def check_tools():
+    global HAVE_TIGER_DRIVER
     for t in ("ogr2ogr", "ogrinfo"):
         if shutil.which(t) is None:
             raise SystemExit(f"ERROR: {t} (GDAL) required but not found on PATH.")
+    # TIGER_FORCE_RT_PARSER=1 skips the driver even where it exists.
+    HAVE_TIGER_DRIVER = (not os.environ.get("TIGER_FORCE_RT_PARSER")
+                         and have_tiger_driver())
+    if not HAVE_TIGER_DRIVER:
+        print("NOTE: this GDAL has no OGR TIGER driver (removed in 3.11, back "
+              "in 3.13) — reading RT record files with the built-in parser.")
 
 
 def main():
@@ -401,6 +453,10 @@ def main():
             continue
         groups[year_tag(str(zp))][fips].append(zp)
 
+    if 'unknown' in groups:
+        n = sum(len(v) for v in groups['unknown'].values())
+        print(f"  WARNING: {n} zips have no recognizable year — they all merge "
+              f"into one 'unknown' output per state. Check the download layout.")
     n_states = sum(len(s) for s in groups.values())
     print(f"Grouped into {n_states} state/year outputs\n")
 

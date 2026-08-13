@@ -81,8 +81,10 @@ for year_key, (folder, depth, suffix, fmt) in YEARS.items():
             print(f"  {state_key:30s} {count:4d} files  {formats}", flush=True)
 
         elif depth == 2:
+            # clean_folders() never returns None, so an unreadable listing used
+            # to read as "state with zero counties" and quietly undercount.
             county_folders = clean_folders(get_links(base + folder + sf))
-            if county_folders is None:
+            if not county_folders:
                 report[year_key]['errors'].append(f"FAILED: {sf}")
                 report[year_key]['states'][state_key] = {'file_count': 0, 'status': 'FAILED'}
                 continue
