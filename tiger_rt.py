@@ -52,16 +52,21 @@ RT2_LEN = 208
 _EXT = {"1": (".RT1", ".F51"), "2": (".RT2", ".F52")}
 
 
-def _coord(rec, span):
-    """Signed millionths-of-a-degree field → float degrees, or None if blank."""
+def _millionths(rec, span):
+    """Signed millionths-of-a-degree field as an int, or None if blank."""
     s = rec[span[0]:span[1]].strip()
     if not s or s in ("+", "-"):
         return None
     try:
-        v = int(s)
+        return int(s)
     except ValueError:
         return None
-    return v / 1_000_000.0
+
+
+def _coord(rec, span):
+    """Signed millionths-of-a-degree field → float degrees, or None if blank."""
+    v = _millionths(rec, span)
+    return None if v is None else v / 1_000_000.0
 
 
 def _txt(rec, key):
@@ -113,12 +118,14 @@ def _shape_points(rt2_path):
         run = []
         off = _RT2_PT0
         for _ in range(_RT2_NPTS):
-            lon = _coord(rec, (off, off + _RT2_LON))
-            lat = _coord(rec, (off + _RT2_LON, off + _RT2_LON + _RT2_LAT))
+            # Compared as raw millionths, not degrees: an unused slot is
+            # +000000000+00000000 and integers make that an exact test.
+            lon = _millionths(rec, (off, off + _RT2_LON))
+            lat = _millionths(rec, (off + _RT2_LON, off + _RT2_LON + _RT2_LAT))
             off += _RT2_LON + _RT2_LAT
-            if lon is None or lat is None or (lon == 0.0 and lat == 0.0):
+            if lon is None or lat is None or (lon == 0 and lat == 0):
                 continue           # unused slot in a partly-filled record
-            run.append((lon, lat))
+            run.append((lon / 1_000_000.0, lat / 1_000_000.0))
         pts.setdefault(tlid, []).append((seq, run))
     return {t: [p for _, run in sorted(runs) for p in run] for t, runs in pts.items()}
 
