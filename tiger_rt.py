@@ -71,8 +71,8 @@ def _txt(rec, key):
 def _records(path, length):
     """Yield fixed-width records, tolerating CRLF, LF, or no line breaks."""
     with open(path, "r", encoding="latin-1", errors="replace") as fh:
-        blob = fh.read()
-    lines = [ln for ln in blob.replace("\r\n", "\n").replace("\r", "\n").split("\n") if ln]
+        blob = fh.read().replace("\r\n", "\n").replace("\r", "\n")
+    lines = [ln for ln in blob.split("\n") if ln]
     if lines and all(len(ln) >= length - 1 for ln in lines[:20]):
         for ln in lines:
             if len(ln) >= length - 1:

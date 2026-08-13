@@ -243,7 +243,9 @@ def road_filter(src, layer):
 
 def rt_geojson(zip_path, ed):
     """Parse RT1/RT2 ourselves → roads-only GeoJSON. (path, layer, None)."""
-    gj = Path(ed) / f"{Path(zip_path).stem}_chains.json"
+    # Fixed name inside the extraction dir: nothing from the archive path ends
+    # up in a filename we open for writing.
+    gj = Path(ed) / "chains.json"
     try:
         n = tiger_rt.write_geojson(ed, gj, cfcc_prefix='A')
     except Exception as e:
@@ -288,7 +290,11 @@ def append_county(zip_path, state_shp):
     datasource on -update, so a -nln that does not match the filename silently
     writes a SECOND shapefile beside it and the county is lost from the merge.
     """
-    ed = TMP / "extract" / zip_path.stem
+    # Sanitize the scratch name: it is deleted with rmtree, and a zip called
+    # e.g. "...zip" has ".." for a stem, which would walk the delete out of the
+    # temp tree.
+    ed = TMP / "extract" / (re.sub(r'[^A-Za-z0-9._-]', '_', zip_path.stem).strip('.')
+                            or "archive")
     rm(ed)
     ed.mkdir(parents=True, exist_ok=True)
     try:
