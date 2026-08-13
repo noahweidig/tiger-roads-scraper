@@ -1,1 +1,16 @@
-https://www2.census.gov/geo/tiger/TIGER2002/31_NE/
+https://www2.census.gov/geo/tiger/TIGER1992/53/
+https://www2.census.gov/geo/tiger/TIGER2003/53_WA/
+https://www2.census.gov/geo/tiger/TIGER2007FE/06_CALIFORNIA/06063_Plumas/
+https://www2.census.gov/geo/tiger/TIGER2007FE/20_KANSAS/20091_Johnson/
+https://www2.census.gov/geo/tiger/TIGER2007FE/27_MINNESOTA/27109_Olmsted/
+https://www2.census.gov/geo/tiger/TIGER2007FE/28_MISSISSIPPI/28131_Stone/
+https://www2.census.gov/geo/tiger/TIGER2007FE/36_NEW_YORK/36081_Queens/
+https://www2.census.gov/geo/tiger/TIGER2007FE/40_OKLAHOMA/40151_Woods/
+https://www2.census.gov/geo/tiger/TIGER2007FE/42_PENNSYLVANIA/42083_McKean/
+https://www2.census.gov/geo/tiger/TIGER2007FE/42_PENNSYLVANIA/42101_Philadelphia/
+https://www2.census.gov/geo/tiger/TIGER2008/18_INDIANA/18059_Hancock_County/
+https://www2.census.gov/geo/tiger/TIGER2008/21_KENTUCKY/21205_Rowan_County/
+https://www2.census.gov/geo/tiger/TIGER2008/30_MONTANA/30075_Powder_River_County/
+https://www2.census.gov/geo/tiger/TIGER2008/38_NORTH_DAKOTA/38015_Burleigh_County/
+https://www2.census.gov/geo/tiger/TIGER2008/39_OHIO/39159_Union_County/
+https://www2.census.gov/geo/tiger/TIGER2008/51_VIRGINIA/51153_Prince_William_County/
