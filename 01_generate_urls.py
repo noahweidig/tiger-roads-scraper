@@ -26,11 +26,27 @@ def retry_failed(failed_list, suffix_filter=None):
                 urls.append(url + f)
     return urls
 
+def list_folders(url):
+    """Directory listing that never degrades to 'empty' on a failed fetch.
+
+    clean_folders(None) is [], so a year or state whose listing failed used to
+    contribute zero URLs with nothing logged — rd_2ktiger vanished from
+    urls.txt exactly this way. Raise instead; safe() records it.
+    """
+    links = get_links(url)
+    if links is None:
+        raise OSError(f"could not list {url}")
+    folders = clean_folders(links)
+    if not folders:
+        raise OSError(f"no subfolders listed at {url}")
+    return folders
+
+
 def scrape_year(year_folder, suffix_filter=None):
     print(f"\nScraping {year_folder}...")
     failed = []
     urls = []
-    state_folders = clean_folders(get_links(base + year_folder))
+    state_folders = list_folders(base + year_folder)
     for sf in state_folders:
         print(f"  {sf}", flush=True)
         files = get_links(base + year_folder + sf)
@@ -47,10 +63,16 @@ def scrape_year_two_level(year_folder, suffix_filter=None):
     print(f"\nScraping {year_folder}...")
     failed = []
     urls = []
-    state_folders = clean_folders(get_links(base + year_folder))
+    state_folders = list_folders(base + year_folder)
     for sf in state_folders:
         print(f"  {sf}", flush=True)
-        county_folders = clean_folders(get_links(base + year_folder + sf))
+        try:
+            county_folders = list_folders(base + year_folder + sf)
+        except OSError as e:                     # one state, not the whole year
+            print(f"  STATE FAILED: {sf} — {e}")
+            with open('failed_urls.txt', 'a') as fh:
+                fh.write(f"{base + year_folder + sf}\tSTATE_ERROR: {e}\n")
+            continue
         for cf in county_folders:
             print(f"    {cf}", flush=True)
             files = get_links(base + year_folder + sf + cf)
