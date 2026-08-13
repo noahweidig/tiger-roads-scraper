@@ -24,13 +24,13 @@ def get_links(url, retries=5):
             r.raise_for_status()
             low = r.text.lower()
             if any(m in low for m in REJECT_MARKERS):
-                raise IOError("blocked by WAF (HTTP 200 'Request Rejected')")
+                raise OSError("blocked by WAF (HTTP 200 'Request Rejected')")
             soup = BeautifulSoup(r.text, 'html.parser')
             links = [a.get('href') for a in soup.find_all('a') if a.get('href')]
             # A real Census index always links back to its parent, so a listing
             # with no relative links at all is a bad response, not an empty dir.
             if not any(not h.startswith(('http', '/', '?', '#')) for h in links):
-                raise IOError("listing has no directory entries")
+                raise OSError("listing has no directory entries")
             return links
         except Exception as e:
             wait = 2 ** (attempt + 1)
