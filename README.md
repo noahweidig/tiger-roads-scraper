@@ -19,7 +19,7 @@ Download & convert historical TIGER/Line road shapefiles (1992–2008) from US C
 | Item | Version | Notes |
 |------|---------|-------|
 | Python | 3.8+ | |
-| GDAL / `ogr2ogr` | 3.x | `brew install gdal` (macOS) / `apt install gdal-bin` (Linux) |
+| GDAL / `ogr2ogr` | 3.x | `brew install gdal` (macOS) / `apt install gdal-bin` (Linux). Any 3.x works: on 3.11/3.12, which ship without the OGR `TIGER` driver, step 4 reads the RT record files itself. |
 | Dependencies | — | `pip install -r requirements.txt` (requests, beautifulsoup4, urllib3) |
 
 Downloader: pure Python async via `requests` + ThreadPoolExecutor (no `aria2c`).
@@ -174,6 +174,24 @@ sudo apt install gdal-bin
 - Common causes: malformed TIGER2007FE records, missing coordinate data
 - Retry conversion (idempotent); failures are cataloged, non-fatal
 
+**Every pre-2007 year fails with `no CompleteChain layer (saw [])`**
+- Your GDAL has no OGR `TIGER` driver: it was removed in GDAL 3.11 (RFC 108)
+  and restored in 3.13, so 3.11.x and 3.12.x cannot open a record-type
+  directory at all. Check with `ogrinfo --formats | grep TIGER`.
+- Step 4 now detects this and parses the RT1/RT2 records itself
+  (`tiger_rt.py`), so no action is needed — it prints a NOTE when it does.
+  Output is identical to the driver's; verified feature-for-feature and
+  vertex-for-vertex on RI 44001 for 1992, 2000, 2002, 2003, 2005se and 2006se.
+- `TIGER_FORCE_RT_PARSER=1` uses the built-in parser even where the driver
+  exists.
+
+**A whole year or state is missing from `urls.txt`**
+- The Census WAF answers throttled requests with HTTP 200 and a
+  "Request Rejected" body, which used to parse as an empty directory and drop
+  the year silently. Steps 1–2 now treat that page (and any listing with no
+  directory entries) as a failure, so it is retried and, if it persists,
+  recorded in `failed_urls.txt`. Rerun `make urls` to fill the gaps.
+
 **Disk space**
 - Raw zips: ~200 GB (removable if `KEEP_ZIPS=False`)
 - Shapefiles: ~150–180 GB
@@ -208,9 +226,9 @@ directory):
 
 The abbreviation-only years (1999, rd_2ktiger, 2006se) carry no state number
 anywhere in the path, so the converter maps USPS abbreviations to FIPS. TIGER1992
-additionally stores records as `.F51`/`.F52` rather than `.RT1`/`.RT2`; the GDAL
-TIGER driver reads both, including the RT2/F52 shape points that give chains
-their intermediate vertices.
+additionally stores records as `.F51`/`.F52` rather than `.RT1`/`.RT2`; both the
+GDAL TIGER driver and the built-in `tiger_rt.py` reader handle either, including
+the RT2/F52 shape points that give chains their intermediate vertices.
 - Converter never hard-fails: each zip/county/state is isolated, ogr2ogr is retried with backoff (layer→whole-source, reproject→raw fallbacks), bad features are skipped (`-skipfailures`), and all issues are logged to `conversion_failures.txt` while valid output is still produced. Reruns are idempotent.
 - Some years have incomplete state coverage; see `tiger_inventory.json`
 
