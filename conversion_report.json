@@ -1,0 +1,450 @@
+[
+  {
+    "tag": "unknown",
+    "fips": "01",
+    "counties": 268,
+    "features": 964762,
+    "dup_removed": 1256638,
+    "counties_failed": 0
+  },
+  {
+    "tag": "unknown",
+    "fips": "02",
+    "counties": 116,
+    "features": 115806,
+    "dup_removed": 180077,
+    "counties_failed": 0
+  },
+  {
+    "tag": "unknown",
+    "fips": "04",
+    "counties": 60,
+    "features": 1127105,
+    "dup_removed": 1596571,
+    "counties_failed": 0
+  },
+  {
+    "tag": "unknown",
+    "fips": "05",
+    "counties": 300,
+    "features": 760467,
+    "dup_removed": 1033644,
+    "counties_failed": 0
+  },
+  {
+    "tag": "unknown",
+    "fips": "06",
+    "counties": 232,
+    "features": 2751985,
+    "dup_removed": 3437559,
+    "counties_failed": 0
+  },
+  {
+    "tag": "unknown",
+    "fips": "08",
+    "counties": 256,
+    "features": 856532,
+    "dup_removed": 1109696,
+    "counties_failed": 0
+  },
+  {
+    "tag": "unknown",
+    "fips": "09",
+    "counties": 32,
+    "features": 258071,
+    "dup_removed": 349155,
+    "counties_failed": 0
+  },
+  {
+    "tag": "unknown",
+    "fips": "10",
+    "counties": 12,
+    "features": 84287,
+    "dup_removed": 114127,
+    "counties_failed": 0
+  },
+  {
+    "tag": "unknown",
+    "fips": "11",
+    "counties": 4,
+    "features": 17682,
+    "dup_removed": 14677,
+    "counties_failed": 0
+  },
+  {
+    "tag": "unknown",
+    "fips": "12",
+    "counties": 268,
+    "features": 1778669,
+    "dup_removed": 2434373,
+    "counties_failed": 0
+  },
+  {
+    "tag": "unknown",
+    "fips": "13",
+    "counties": 636,
+    "features": 1160388,
+    "dup_removed": 1565237,
+    "counties_failed": 0
+  },
+  {
+    "tag": "unknown",
+    "fips": "15",
+    "counties": 20,
+    "features": 107722,
+    "dup_removed": 160619,
+    "counties_failed": 0
+  },
+  {
+    "tag": "unknown",
+    "fips": "16",
+    "counties": 176,
+    "features": 677718,
+    "dup_removed": 930234,
+    "counties_failed": 0
+  },
+  {
+    "tag": "unknown",
+    "fips": "17",
+    "counties": 408,
+    "features": 1404060,
+    "dup_removed": 1643234,
+    "counties_failed": 0
+  },
+  {
+    "tag": "unknown",
+    "fips": "18",
+    "counties": 368,
+    "features": 1004501,
+    "dup_removed": 1298377,
+    "counties_failed": 0
+  },
+  {
+    "tag": "unknown",
+    "fips": "19",
+    "counties": 396,
+    "features": 788928,
+    "dup_removed": 888921,
+    "counties_failed": 0
+  },
+  {
+    "tag": "unknown",
+    "fips": "20",
+    "counties": 420,
+    "features": 943604,
+    "dup_removed": 1107978,
+    "counties_failed": 0
+  },
+  {
+    "tag": "unknown",
+    "fips": "21",
+    "counties": 480,
+    "features": 694256,
+    "dup_removed": 910156,
+    "counties_failed": 0
+  },
+  {
+    "tag": "unknown",
+    "fips": "22",
+    "counties": 256,
+    "features": 709631,
+    "dup_removed": 962042,
+    "counties_failed": 0
+  },
+  {
+    "tag": "unknown",
+    "fips": "23",
+    "counties": 64,
+    "features": 301723,
+    "dup_removed": 499784,
+    "counties_failed": 0
+  },
+  {
+    "tag": "unknown",
+    "fips": "24",
+    "counties": 96,
+    "features": 637040,
+    "dup_removed": 949504,
+    "counties_failed": 0
+  },
+  {
+    "tag": "unknown",
+    "fips": "25",
+    "counties": 56,
+    "features": 573085,
+    "dup_removed": 780106,
+    "counties_failed": 0
+  },
+  {
+    "tag": "unknown",
+    "fips": "26",
+    "counties": 332,
+    "features": 1082449,
+    "dup_removed": 1325372,
+    "counties_failed": 0
+  },
+  {
+    "tag": "unknown",
+    "fips": "27",
+    "counties": 348,
+    "features": 1096208,
+    "dup_removed": 1474905,
+    "counties_failed": 0
+  },
+  {
+    "tag": "unknown",
+    "fips": "28",
+    "counties": 328,
+    "features": 840802,
+    "dup_removed": 1130836,
+    "counties_failed": 0
+  },
+  {
+    "tag": "unknown",
+    "fips": "29",
+    "counties": 460,
+    "features": 1538232,
+    "dup_removed": 2120758,
+    "counties_failed": 0
+  },
+  {
+    "tag": "unknown",
+    "fips": "30",
+    "counties": 224,
+    "features": 591562,
+    "dup_removed": 788445,
+    "counties_failed": 0
+  },
+  {
+    "tag": "unknown",
+    "fips": "31",
+    "counties": 372,
+    "features": 728951,
+    "dup_removed": 878003,
+    "counties_failed": 0
+  },
+  {
+    "tag": "unknown",
+    "fips": "32",
+    "counties": 68,
+    "features": 454928,
+    "dup_removed": 653302,
+    "counties_failed": 0
+  },
+  {
+    "tag": "unknown",
+    "fips": "33",
+    "counties": 40,
+    "features": 215846,
+    "dup_removed": 312689,
+    "counties_failed": 0
+  },
+  {
+    "tag": "unknown",
+    "fips": "34",
+    "counties": 84,
+    "features": 554531,
+    "dup_removed": 619359,
+    "counties_failed": 0
+  },
+  {
+    "tag": "unknown",
+    "fips": "35",
+    "counties": 132,
+    "features": 810665,
+    "dup_removed": 1246742,
+    "counties_failed": 0
+  },
+  {
+    "tag": "unknown",
+    "fips": "36",
+    "counties": 248,
+    "features": 1118973,
+    "dup_removed": 1325474,
+    "counties_failed": 0
+  },
+  {
+    "tag": "unknown",
+    "fips": "37",
+    "counties": 400,
+    "features": 1254576,
+    "dup_removed": 1702253,
+    "counties_failed": 0
+  },
+  {
+    "tag": "unknown",
+    "fips": "38",
+    "counties": 212,
+    "features": 612008,
+    "dup_removed": 817308,
+    "counties_failed": 0
+  },
+  {
+    "tag": "unknown",
+    "fips": "39",
+    "counties": 352,
+    "features": 1316518,
+    "dup_removed": 1726313,
+    "counties_failed": 0
+  },
+  {
+    "tag": "unknown",
+    "fips": "40",
+    "counties": 308,
+    "features": 1266867,
+    "dup_removed": 1813895,
+    "counties_failed": 0
+  },
+  {
+    "tag": "unknown",
+    "fips": "41",
+    "counties": 144,
+    "features": 947300,
+    "dup_removed": 1399082,
+    "counties_failed": 0
+  },
+  {
+    "tag": "unknown",
+    "fips": "42",
+    "counties": 268,
+    "features": 1558506,
+    "dup_removed": 2063722,
+    "counties_failed": 0
+  },
+  {
+    "tag": "unknown",
+    "fips": "44",
+    "counties": 20,
+    "features": 89286,
+    "dup_removed": 106812,
+    "counties_failed": 0
+  },
+  {
+    "tag": "unknown",
+    "fips": "45",
+    "counties": 184,
+    "features": 686959,
+    "dup_removed": 944612,
+    "counties_failed": 0
+  },
+  {
+    "tag": "unknown",
+    "fips": "46",
+    "counties": 264,
+    "features": 326047,
+    "dup_removed": 366074,
+    "counties_failed": 0
+  },
+  {
+    "tag": "unknown",
+    "fips": "47",
+    "counties": 380,
+    "features": 954681,
+    "dup_removed": 1212518,
+    "counties_failed": 0
+  },
+  {
+    "tag": "unknown",
+    "fips": "48",
+    "counties": 1016,
+    "features": 3635302,
+    "dup_removed": 5001011,
+    "counties_failed": 0
+  },
+  {
+    "tag": "unknown",
+    "fips": "49",
+    "counties": 116,
+    "features": 579327,
+    "dup_removed": 915390,
+    "counties_failed": 0
+  },
+  {
+    "tag": "unknown",
+    "fips": "50",
+    "counties": 56,
+    "features": 157102,
+    "dup_removed": 209444,
+    "counties_failed": 0
+  },
+  {
+    "tag": "unknown",
+    "fips": "51",
+    "counties": 536,
+    "features": 1676966,
+    "dup_removed": 2443263,
+    "counties_failed": 0
+  },
+  {
+    "tag": "unknown",
+    "fips": "53",
+    "counties": 156,
+    "features": 864367,
+    "dup_removed": 1260773,
+    "counties_failed": 0
+  },
+  {
+    "tag": "unknown",
+    "fips": "54",
+    "counties": 220,
+    "features": 685616,
+    "dup_removed": 1056297,
+    "counties_failed": 0
+  },
+  {
+    "tag": "unknown",
+    "fips": "55",
+    "counties": 288,
+    "features": 806385,
+    "dup_removed": 952620,
+    "counties_failed": 0
+  },
+  {
+    "tag": "unknown",
+    "fips": "56",
+    "counties": 92,
+    "features": 426092,
+    "dup_removed": 658117,
+    "counties_failed": 0
+  },
+  {
+    "tag": "unknown",
+    "fips": "60",
+    "counties": 17,
+    "features": 6477,
+    "dup_removed": 11283,
+    "counties_failed": 0
+  },
+  {
+    "tag": "unknown",
+    "fips": "66",
+    "counties": 4,
+    "features": 22442,
+    "dup_removed": 37468,
+    "counties_failed": 0
+  },
+  {
+    "tag": "unknown",
+    "fips": "69",
+    "counties": 13,
+    "features": 9027,
+    "dup_removed": 15837,
+    "counties_failed": 0
+  },
+  {
+    "tag": "unknown",
+    "fips": "72",
+    "counties": 312,
+    "features": 389533,
+    "dup_removed": 703735,
+    "counties_failed": 0
+  },
+  {
+    "tag": "unknown",
+    "fips": "78",
+    "counties": 12,
+    "features": 22265,
+    "dup_removed": 42901,
+    "counties_failed": 0
+  }
+]
