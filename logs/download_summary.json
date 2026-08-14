@@ -1,9 +1,9 @@
 {
-  "total": 27,
-  "ok": 27,
+  "total": 0,
+  "ok": 0,
   "skip": 0,
   "missing": 0,
   "fail": 0,
-  "elapsed_seconds": 1.2,
+  "elapsed_seconds": 0.0,
   "download_dir": "D:\\roads"
 }
