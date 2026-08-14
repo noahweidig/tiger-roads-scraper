@@ -378,9 +378,12 @@
         "status": "OK"
       },
       "53": {
-        "file_count": 0,
-        "formats": [],
-        "status": "EMPTY"
+        "file_count": 40,
+        "formats": [
+          "RT_linefile",
+          "unknown"
+        ],
+        "status": "OK"
       },
       "54": {
         "file_count": 56,
@@ -478,7 +481,7 @@
         "status": "EMPTY"
       }
     },
-    "total_files": 3267,
+    "total_files": 3307,
     "missing_states": [],
     "format": "RT_linefile",
     "errors": [],
@@ -1636,8 +1639,7 @@
       },
       "53_WA": {
         "file_count": 0,
-        "formats": [],
-        "status": "EMPTY"
+        "status": "FAILED"
       },
       "54_WV": {
         "file_count": 55,
@@ -1704,7 +1706,9 @@
     "total_files": 3193,
     "missing_states": [],
     "format": "RT_linefile",
-    "errors": [],
+    "errors": [
+      "FAILED: 53_WA/"
+    ],
     "state_count": 57
   },
   "tiger2005se": {
@@ -4448,8 +4452,7 @@
           },
           "06063_Plumas": {
             "file_count": 0,
-            "formats": [],
-            "status": "EMPTY"
+            "status": "FAILED"
           },
           "06065_Riverside": {
             "file_count": 1,
@@ -5688,7 +5691,7 @@
         "status": "OK"
       },
       "13_GEORGIA": {
-        "file_count": 157,
+        "file_count": 159,
         "county_count": 159,
         "formats": [
           "shapefile_fe"
@@ -6115,9 +6118,11 @@
             "status": "OK"
           },
           "13123_Gilmer": {
-            "file_count": 0,
-            "formats": [],
-            "status": "EMPTY"
+            "file_count": 1,
+            "formats": [
+              "shapefile_fe"
+            ],
+            "status": "OK"
           },
           "13125_Glascock": {
             "file_count": 1,
@@ -6708,9 +6713,11 @@
             "status": "OK"
           },
           "13295_Walker": {
-            "file_count": 0,
-            "formats": [],
-            "status": "EMPTY"
+            "file_count": 1,
+            "formats": [
+              "shapefile_fe"
+            ],
+            "status": "OK"
           },
           "13297_Walton": {
             "file_count": 1,
@@ -8548,7 +8555,7 @@
         "status": "OK"
       },
       "19_IOWA": {
-        "file_count": 98,
+        "file_count": 99,
         "county_count": 99,
         "formats": [
           "shapefile_fe"
@@ -8940,9 +8947,11 @@
             "status": "OK"
           },
           "19111_Lee": {
-            "file_count": 0,
-            "formats": [],
-            "status": "EMPTY"
+            "file_count": 1,
+            "formats": [
+              "shapefile_fe"
+            ],
+            "status": "OK"
           },
           "19113_Linn": {
             "file_count": 1,
@@ -9572,8 +9581,7 @@
           },
           "20091_Johnson": {
             "file_count": 0,
-            "formats": [],
-            "status": "EMPTY"
+            "status": "FAILED"
           },
           "20093_Kearny": {
             "file_count": 1,
@@ -11422,7 +11430,7 @@
         "status": "OK"
       },
       "24_MARYLAND": {
-        "file_count": 23,
+        "file_count": 24,
         "county_count": 24,
         "formats": [
           "shapefile_fe"
@@ -11464,9 +11472,11 @@
             "status": "OK"
           },
           "24013_Carroll": {
-            "file_count": 0,
-            "formats": [],
-            "status": "EMPTY"
+            "file_count": 1,
+            "formats": [
+              "shapefile_fe"
+            ],
+            "status": "OK"
           },
           "24015_Cecil": {
             "file_count": 1,
@@ -12683,8 +12693,7 @@
           },
           "27109_Olmsted": {
             "file_count": 0,
-            "formats": [],
-            "status": "EMPTY"
+            "status": "FAILED"
           },
           "27111_Otter_Tail": {
             "file_count": 1,
@@ -13377,8 +13386,7 @@
           },
           "28131_Stone": {
             "file_count": 0,
-            "formats": [],
-            "status": "EMPTY"
+            "status": "FAILED"
           },
           "28133_Sunflower": {
             "file_count": 1,
@@ -16269,8 +16277,7 @@
           },
           "36081_Queens": {
             "file_count": 0,
-            "formats": [],
-            "status": "EMPTY"
+            "status": "FAILED"
           },
           "36083_Rensselaer": {
             "file_count": 1,
@@ -18673,8 +18680,7 @@
           },
           "40151_Woods": {
             "file_count": 0,
-            "formats": [],
-            "status": "EMPTY"
+            "status": "FAILED"
           },
           "40153_Woodward": {
             "file_count": 1,
@@ -19244,8 +19250,7 @@
           },
           "42083_McKean": {
             "file_count": 0,
-            "formats": [],
-            "status": "EMPTY"
+            "status": "FAILED"
           },
           "42085_Mercer": {
             "file_count": 1,
@@ -19305,8 +19310,7 @@
           },
           "42101_Philadelphia": {
             "file_count": 0,
-            "formats": [],
-            "status": "EMPTY"
+            "status": "FAILED"
           },
           "42103_Pike": {
             "file_count": 1,
@@ -19801,7 +19805,7 @@
         "status": "OK"
       },
       "46_SOUTH_DAKOTA": {
-        "file_count": 65,
+        "file_count": 66,
         "county_count": 66,
         "formats": [
           "shapefile_fe"
@@ -20032,9 +20036,11 @@
             "status": "OK"
           },
           "46067_Hutchinson": {
-            "file_count": 0,
-            "formats": [],
-            "status": "EMPTY"
+            "file_count": 1,
+            "formats": [
+              "shapefile_fe"
+            ],
+            "status": "OK"
           },
           "46069_Hyde": {
             "file_count": 1,
@@ -24008,7 +24014,7 @@
         "status": "OK"
       },
       "53_WASHINGTON": {
-        "file_count": 38,
+        "file_count": 39,
         "county_count": 39,
         "formats": [
           "shapefile_fe"
@@ -24239,9 +24245,11 @@
             "status": "OK"
           },
           "53065_Stevens": {
-            "file_count": 0,
-            "formats": [],
-            "status": "EMPTY"
+            "file_count": 1,
+            "formats": [
+              "shapefile_fe"
+            ],
+            "status": "OK"
           },
           "53067_Thurston": {
             "file_count": 1,
@@ -26174,10 +26182,19 @@
         "status": "EMPTY"
       }
     },
-    "total_files": 3218,
+    "total_files": 3224,
     "missing_states": [],
     "format": "shapefile_fe",
-    "errors": [],
+    "errors": [
+      "FAILED: 06_CALIFORNIA/06063_Plumas/",
+      "FAILED: 20_KANSAS/20091_Johnson/",
+      "FAILED: 27_MINNESOTA/27109_Olmsted/",
+      "FAILED: 28_MISSISSIPPI/28131_Stone/",
+      "FAILED: 36_NEW_YORK/36081_Queens/",
+      "FAILED: 40_OKLAHOMA/40151_Woods/",
+      "FAILED: 42_PENNSYLVANIA/42083_McKean/",
+      "FAILED: 42_PENNSYLVANIA/42101_Philadelphia/"
+    ],
     "state_count": 57
   },
   "TIGER2008": {
@@ -27939,7 +27956,7 @@
         "status": "OK"
       },
       "08_COLORADO": {
-        "file_count": 64,
+        "file_count": 63,
         "county_count": 64,
         "formats": [
           "shapefile_tl"
@@ -28093,11 +28110,8 @@
             "status": "OK"
           },
           "08041_El_Paso_County": {
-            "file_count": 1,
-            "formats": [
-              "shapefile_tl"
-            ],
-            "status": "OK"
+            "file_count": 0,
+            "status": "FAILED"
           },
           "08043_Fremont_County": {
             "file_count": 1,
@@ -31411,8 +31425,7 @@
           },
           "18059_Hancock_County": {
             "file_count": 0,
-            "formats": [],
-            "status": "EMPTY"
+            "status": "FAILED"
           },
           "18061_Harrison_County": {
             "file_count": 1,
@@ -31852,7 +31865,7 @@
         "status": "OK"
       },
       "19_IOWA": {
-        "file_count": 98,
+        "file_count": 99,
         "county_count": 99,
         "formats": [
           "shapefile_tl"
@@ -32013,9 +32026,11 @@
             "status": "OK"
           },
           "19045_Clinton_County": {
-            "file_count": 0,
-            "formats": [],
-            "status": "EMPTY"
+            "file_count": 1,
+            "formats": [
+              "shapefile_tl"
+            ],
+            "status": "OK"
           },
           "19047_Crawford_County": {
             "file_count": 1,
@@ -34020,8 +34035,7 @@
           },
           "21205_Rowan_County": {
             "file_count": 0,
-            "formats": [],
-            "status": "EMPTY"
+            "status": "FAILED"
           },
           "21207_Russell_County": {
             "file_count": 1,
@@ -37621,7 +37635,7 @@
         "status": "OK"
       },
       "30_MONTANA": {
-        "file_count": 54,
+        "file_count": 55,
         "county_count": 56,
         "formats": [
           "shapefile_tl"
@@ -37824,9 +37838,11 @@
             "status": "OK"
           },
           "30057_Madison_County": {
-            "file_count": 0,
-            "formats": [],
-            "status": "EMPTY"
+            "file_count": 1,
+            "formats": [
+              "shapefile_tl"
+            ],
+            "status": "OK"
           },
           "30059_Meagher_County": {
             "file_count": 1,
@@ -37886,8 +37902,7 @@
           },
           "30075_Powder_River_County": {
             "file_count": 0,
-            "formats": [],
-            "status": "EMPTY"
+            "status": "FAILED"
           },
           "30077_Powell_County": {
             "file_count": 1,
@@ -39731,7 +39746,7 @@
         "status": "OK"
       },
       "37_NORTH_CAROLINA": {
-        "file_count": 99,
+        "file_count": 100,
         "county_count": 100,
         "formats": [
           "shapefile_tl"
@@ -40347,9 +40362,11 @@
             "status": "OK"
           },
           "37175_Transylvania_County": {
-            "file_count": 0,
-            "formats": [],
-            "status": "EMPTY"
+            "file_count": 1,
+            "formats": [
+              "shapefile_tl"
+            ],
+            "status": "OK"
           },
           "37177_Tyrrell_County": {
             "file_count": 1,
@@ -40496,8 +40513,7 @@
           },
           "38015_Burleigh_County": {
             "file_count": 0,
-            "formats": [],
-            "status": "EMPTY"
+            "status": "FAILED"
           },
           "38017_Cass_County": {
             "file_count": 1,
@@ -41379,8 +41395,7 @@
           },
           "39159_Union_County": {
             "file_count": 0,
-            "formats": [],
-            "status": "EMPTY"
+            "status": "FAILED"
           },
           "39161_Van_Wert_County": {
             "file_count": 1,
@@ -46044,7 +46059,7 @@
         "status": "OK"
       },
       "49_UTAH": {
-        "file_count": 28,
+        "file_count": 29,
         "county_count": 29,
         "formats": [
           "shapefile_tl"
@@ -46149,9 +46164,11 @@
             "status": "OK"
           },
           "49029_Morgan_County": {
-            "file_count": 0,
-            "formats": [],
-            "status": "EMPTY"
+            "file_count": 1,
+            "formats": [
+              "shapefile_tl"
+            ],
+            "status": "OK"
           },
           "49031_Piute_County": {
             "file_count": 1,
@@ -46363,7 +46380,7 @@
         "status": "OK"
       },
       "51_VIRGINIA": {
-        "file_count": 134,
+        "file_count": 133,
         "county_count": 135,
         "formats": [
           "shapefile_tl"
@@ -46874,11 +46891,8 @@
             "status": "OK"
           },
           "51153_Prince_William_County": {
-            "file_count": 1,
-            "formats": [
-              "shapefile_tl"
-            ],
-            "status": "OK"
+            "file_count": 0,
+            "status": "FAILED"
           },
           "51155_Pulaski_County": {
             "file_count": 1,
@@ -49484,10 +49498,18 @@
         "status": "EMPTY"
       }
     },
-    "total_files": 3224,
+    "total_files": 3226,
     "missing_states": [],
     "format": "shapefile_tl",
-    "errors": [],
+    "errors": [
+      "FAILED: 08_COLORADO/08041_El_Paso_County/",
+      "FAILED: 18_INDIANA/18059_Hancock_County/",
+      "FAILED: 21_KENTUCKY/21205_Rowan_County/",
+      "FAILED: 30_MONTANA/30075_Powder_River_County/",
+      "FAILED: 38_NORTH_DAKOTA/38015_Burleigh_County/",
+      "FAILED: 39_OHIO/39159_Union_County/",
+      "FAILED: 51_VIRGINIA/51153_Prince_William_County/"
+    ],
     "state_count": 57
   }
 }
