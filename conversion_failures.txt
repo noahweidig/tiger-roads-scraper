@@ -16,3 +16,5 @@ D:\roads\tiger1992\70\70350.zip	no FIPS
 D:\roads\tiger1992\70\70370.zip	no FIPS
 D:\roads\tiger1992\74\74300.zip	no FIPS
 D:\roads\tiger1999\UM\tgr74300.zip	no FIPS
+D:\roads\tiger1992\60\60030.zip	RT parse: no road chains found
+D:\roads\tiger1999\NJ\tgr34039.zip	not a zip
