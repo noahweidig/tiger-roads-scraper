@@ -6,9 +6,9 @@ Earth Engine table-ingestion task per zip. One EE asset per zip, named after
 the zip's stem (e.g. `TIGER1992_01`), under a single destination folder.
 
 Prerequisites:
-- `pip install earthengine-api`
-- `gcloud auth login` / `earthengine authenticate` already run
-- `gsutil` on PATH, with write access to the staging bucket
+- `pip install earthengine-api google-cloud-storage`
+- `gcloud auth application-default login` / `earthengine authenticate` already run
+- Write access to the staging GCS bucket under those credentials
 - An Earth Engine project you can write assets to
 
 Usage:
@@ -25,7 +25,6 @@ import argparse
 import concurrent.futures
 import json
 import os
-import subprocess
 import sys
 import threading
 import time
@@ -44,24 +43,20 @@ POLL_INTERVAL = 15
 _print_lock = threading.Lock()
 
 
-def gsutil_uri_exists(uri: str, expected_size: int) -> bool:
-    r = subprocess.run(["gsutil", "stat", uri], capture_output=True, text=True)
-    if r.returncode != 0:
-        return False
-    for line in r.stdout.splitlines():
-        line = line.strip()
-        if line.startswith("Content-Length:"):
-            return int(line.split(":", 1)[1].strip()) == expected_size
-    return False
+def stage_to_gcs(zip_path: Path, bucket_name: str, blob_name: str) -> str:
+    """Upload zip_path to gs://bucket_name/blob_name unless already staged
+    at the right size. Returns the gs:// URI."""
+    from google.cloud import storage
 
-
-def stage_to_gcs(zip_path: Path, uri: str) -> None:
-    if gsutil_uri_exists(uri, zip_path.stat().st_size):
-        return
-    r = subprocess.run(["gsutil", "-q", "cp", str(zip_path), uri],
-                        capture_output=True, text=True)
-    if r.returncode != 0:
-        raise RuntimeError(f"gsutil cp failed: {r.stderr.strip()}")
+    client = storage.Client()
+    blob = client.bucket(bucket_name).blob(blob_name)
+    expected = zip_path.stat().st_size
+    if blob.exists(client=client):
+        blob.reload(client=client)
+        if blob.size == expected:
+            return f"gs://{bucket_name}/{blob_name}"
+    blob.upload_from_filename(str(zip_path))
+    return f"gs://{bucket_name}/{blob_name}"
 
 
 def asset_exists(asset_id: str) -> bool:
@@ -94,8 +89,8 @@ def process_one(zip_path: Path, args, folder_prefix: str) -> tuple[str, str, str
         if not args.overwrite and asset_exists(asset_id):
             return ("skip", stem, f"asset exists: {asset_id}")
 
-        gcs_uri = f"gs://{args.bucket}/{args.gcs_prefix}/{zip_path.name}"
-        stage_to_gcs(zip_path, gcs_uri)
+        blob_name = f"{args.gcs_prefix}/{zip_path.name}"
+        gcs_uri = stage_to_gcs(zip_path, args.bucket, blob_name)
         task_id = submit_ingestion(asset_id, gcs_uri, args.overwrite)
 
         if args.no_wait:
