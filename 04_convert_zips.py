@@ -141,7 +141,10 @@ def year_tag(s):
             return t
     m = _FILE_YEAR.match(Path(s).name)
     if m:
-        return {'2007': 'tiger2007fe'}.get(m.group(1), f"tiger{m.group(1)}")
+        year = int(m.group(1))
+        if year > 2008:
+            return None
+        return {'2007': 'tiger2007fe'}.get(m.group(1), f"tiger{year}")
     return 'unknown'
 
 
@@ -457,7 +460,11 @@ def main():
             print(f"  SKIP — no state FIPS in {zp}")
             log_fail(zp, "no FIPS")
             continue
-        groups[year_tag(str(zp))][fips].append(zp)
+        tag = year_tag(str(zp))
+        if tag is None:
+          print(f"  SKIP — year after 2008: {zp}")
+          continue
+        groups[tag][fips].append(zp)
 
     if 'unknown' in groups:
         n = sum(len(v) for v in groups['unknown'].values())

@@ -1,26 +1,5 @@
-"""Batch-upload zipped TIGER/Line shapefiles into Google Earth Engine.
-
-Reads every `*.zip` under TIGER_SHAPEFILE_DIR (step 4's output — one merged
-state shapefile per zip), stages each zip in a GCS bucket, then submits an
-Earth Engine table-ingestion task per zip. One EE asset per zip, named after
-the zip's stem (e.g. `TIGER1992_01`), under a single destination folder.
-
-Prerequisites:
-- `pip install earthengine-api google-cloud-storage`
-- `gcloud auth application-default login` / `earthengine authenticate` already run
-- Write access to the staging GCS bucket under those credentials
-- An Earth Engine project you can write assets to
-
-Usage:
-    python 05_upload_to_gee.py --bucket my-staging-bucket \
-        --ee-project my-ee-project --asset-folder tiger_roads
-
-Safe to rerun: assets that already exist are skipped (use --overwrite to
-replace them); zips already staged in GCS at the expected size are not
-re-uploaded.
-"""
+"""Batch-upload zipped TIGER/Line shapefiles into Google Earth Engine."""
 from __future__ import annotations
-
 import argparse
 import concurrent.futures
 import json
@@ -29,25 +8,25 @@ import sys
 import threading
 import time
 from pathlib import Path
+import google.oauth2.credentials
 
 SHAPEFILE_DIR = Path(os.environ.get("TIGER_SHAPEFILE_DIR", "D:/roads_shapefiles"))
 LOG_DIR = Path("logs")
-
 FAIL_LOG = LOG_DIR / "gee_upload_failures.txt"
 OK_LOG = LOG_DIR / "gee_upload_ok.txt"
 SUMMARY_JSON = LOG_DIR / "gee_upload_summary.json"
 PROGRESS_LOG = LOG_DIR / "gee_upload_progress.log"
-
 DEFAULT_WORKERS = 4
-POLL_INTERVAL = 15
+POLL_INTERVAL = 30
+EE_PROJECT = "tiger-roads"
+EE_ASSET_FOLDER = "states"
+GCS_BUCKET = "tiger-roads-staging"
+GCS_PREFIX = "tiger_roads_staging"
 _print_lock = threading.Lock()
 
 
 def stage_to_gcs(zip_path: Path, bucket_name: str, blob_name: str) -> str:
-    """Upload zip_path to gs://bucket_name/blob_name unless already staged
-    at the right size. Returns the gs:// URI."""
     from google.cloud import storage
-
     client = storage.Client()
     blob = client.bucket(bucket_name).blob(blob_name)
     expected = zip_path.stat().st_size
@@ -80,26 +59,21 @@ def submit_ingestion(asset_id: str, gcs_uri: str, overwrite: bool) -> str:
 
 
 def process_one(zip_path: Path, args, folder_prefix: str) -> tuple[str, str, str]:
-    """Returns (status, zip_name, info). status in {ok, skip, fail}."""
     import ee
-
     stem = zip_path.stem
     asset_id = f"{folder_prefix}/{stem}"
     try:
         if not args.overwrite and asset_exists(asset_id):
             return ("skip", stem, f"asset exists: {asset_id}")
-
         blob_name = f"{args.gcs_prefix}/{zip_path.name}"
         gcs_uri = stage_to_gcs(zip_path, args.bucket, blob_name)
         task_id = submit_ingestion(asset_id, gcs_uri, args.overwrite)
-
         if args.no_wait:
             return ("ok", stem, f"submitted task={task_id} asset={asset_id}")
-
         while True:
             status = ee.data.getTaskStatus(task_id)[0]
             state = status.get("state")
-            if state in ("COMPLETED",):
+            if state == "COMPLETED":
                 return ("ok", stem, f"asset={asset_id}")
             if state in ("FAILED", "CANCELLED"):
                 return ("fail", stem, f"task {state}: {status.get('error_message')}")
@@ -110,18 +84,15 @@ def process_one(zip_path: Path, args, folder_prefix: str) -> tuple[str, str, str
 
 def main() -> int:
     parser = argparse.ArgumentParser()
-    parser.add_argument("--shapefile-dir", type=Path, default=SHAPEFILE_DIR,
-                        help="Root dir to search for *.zip (default TIGER_SHAPEFILE_DIR env or D:/roads_shapefiles)")
-    parser.add_argument("--bucket", required=True, help="GCS bucket used to stage zips for EE ingestion")
-    parser.add_argument("--gcs-prefix", default="tiger_roads_staging", help="Path prefix within the bucket")
-    parser.add_argument("--ee-project", required=True, help="Earth Engine cloud project ID")
-    parser.add_argument("--asset-folder", required=True,
-                        help="Destination EE folder, relative to the project's assets root (e.g. tiger_roads)")
+    parser.add_argument("--shapefile-dir", type=Path, default=SHAPEFILE_DIR)
+    parser.add_argument("--bucket", default=GCS_BUCKET)
+    parser.add_argument("--gcs-prefix", default=GCS_PREFIX)
+    parser.add_argument("--ee-project", default=EE_PROJECT)
+    parser.add_argument("--asset-folder", default=EE_ASSET_FOLDER)
     parser.add_argument("--workers", type=int, default=DEFAULT_WORKERS)
-    parser.add_argument("--overwrite", action="store_true", help="Re-ingest and replace existing assets")
-    parser.add_argument("--no-wait", action="store_true",
-                        help="Submit ingestion tasks without waiting for them to complete")
-    parser.add_argument("--dry-run", action="store_true", help="List what would be uploaded and exit")
+    parser.add_argument("--overwrite", action="store_true")
+    parser.add_argument("--no-wait", action="store_true")
+    parser.add_argument("--dry-run", action="store_true")
     args = parser.parse_args()
 
     zips = sorted(args.shapefile_dir.rglob("*.zip"))
@@ -137,14 +108,28 @@ def main() -> int:
         return 0
 
     import ee
-    ee.Initialize(project=args.ee_project)
+    from google.auth.transport.requests import Request
 
-    project_root = f"projects/{args.ee_project}/assets"
-    folder_id = f"{project_root}/{args.asset_folder}"
+    creds_path = os.path.join(os.path.expanduser("~"), ".config", "earthengine", "credentials")
+    with open(creds_path) as f:
+      creds_data = json.load(f)
+
+    credentials = google.oauth2.credentials.Credentials(
+        token=None,
+        refresh_token=creds_data["refresh_token"],
+        token_uri="https://oauth2.googleapis.com/token",
+        client_id=creds_data["client_id"],
+        client_secret=creds_data["client_secret"],
+    )
+    credentials.refresh(Request())
+    ee.Initialize(credentials=credentials, project=args.ee_project)
+
+    folder_id = f"projects/{args.ee_project}/assets/{args.asset_folder}"
     try:
         ee.data.getAsset(folder_id)
     except ee.EEException:
         ee.data.createAsset({"type": "FOLDER"}, folder_id)
+        print(f"Created EE folder: {folder_id}")
 
     LOG_DIR.mkdir(parents=True, exist_ok=True)
     progress_fh = PROGRESS_LOG.open("w", buffering=1)
@@ -168,20 +153,24 @@ def main() -> int:
                     progress_fh.write(line + "\n")
                 if done % 20 == 0 or done == len(zips):
                     with _print_lock:
-                        print(f"[{done}/{len(zips)}] ok={len(results['ok'])} "
-                              f"skip={len(results['skip'])} fail={len(results['fail'])}",
-                              flush=True)
+                        print(
+                            f"[{done}/{len(zips)}] ok={len(results['ok'])} "
+                            f"skip={len(results['skip'])} fail={len(results['fail'])}",
+                            flush=True,
+                        )
     except KeyboardInterrupt:
         print("\nInterrupted — writing partial logs...", flush=True)
     finally:
         progress_fh.close()
 
     FAIL_LOG.write_text(
-        "\n".join(f"{n}\t{i}" for n, i in results["fail"]) + ("\n" if results["fail"] else "")
+        "\n".join(f"{n}\t{i}" for n, i in results["fail"])
+        + ("\n" if results["fail"] else "")
     )
     OK_LOG.write_text(
         "\n".join(n for n, _ in results["ok"] + results["skip"]) + "\n"
     )
+
     summary = {
         "total": len(zips),
         "ok": len(results["ok"]),
