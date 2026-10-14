@@ -1,0 +1,16 @@
+cff-version: 1.2.0
+message: "If you use this software, please cite it as below."
+type: software
+title: "tiger-roads"
+abstract: "Download and convert historical TIGER/Line road shapefiles (1992-2008) from the US Census Bureau into per-state zipped shapefiles in EPSG:4326, with optional upload to Google Earth Engine."
+authors:
+  - family-names: Weidig
+    given-names: Noah
+repository-code: "https://github.com/noahweidig/tiger-roads-scraper"
+license: MIT
+date-released: 2026-10-14
+keywords:
+  - TIGER/Line
+  - roads
+  - US Census Bureau
+  - GIS
