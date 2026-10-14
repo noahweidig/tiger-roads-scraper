@@ -2,6 +2,8 @@
 
 Download & convert historical TIGER/Line road shapefiles (1992–2008) from US Census Bureau into per-state zipped shapefiles, reprojected to EPSG:4326 (WGS 84).
 
+> **Note:** This project is entirely vibe coded with [Claude Code](https://claude.com/claude-code). The code was written by AI with light human review, not audited. Verify outputs before relying on them.
+
 ## Overview
 
 **What is TIGER/Line?** National digital map data of US roads, water, railroads, administrative boundaries from Census Bureau. Multi-year snapshots capture road network evolution.
@@ -252,3 +254,7 @@ the RT2/F52 shape points that give chains their intermediate vertices.
 - Reprojection NAD83 → WGS84 is a null transform in GDAL: it rewrites the
   `.prj` without moving a vertex, so node coincidence survives it exactly.
 - Network failures can orphan partial downloads; `make retry` or delete `.part` files manually
+
+## License
+
+[MIT](LICENSE)
