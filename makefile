@@ -1,6 +1,6 @@
 .RECIPEPREFIX := >
 
-PYTHON := C:/Users/noah.weidig/miniconda3/envs/ee/python.exe
+PYTHON ?= python
 SHAPEFILE_DIR := D:/roads_shapefiles
 
 .PHONY: all urls check download retry convert upload upload-dry-run clean clean-logs

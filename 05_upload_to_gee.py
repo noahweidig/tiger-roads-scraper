@@ -20,7 +20,7 @@ DEFAULT_WORKERS = 4
 POLL_INTERVAL = 30
 EE_PROJECT = "tiger-roads"
 EE_ASSET_FOLDER = "states"
-GCS_BUCKET = "tiger-roads-staging"
+GCS_BUCKET = os.environ.get("TIGER_GCS_BUCKET")
 GCS_PREFIX = "tiger_roads_staging"
 _print_lock = threading.Lock()
 
