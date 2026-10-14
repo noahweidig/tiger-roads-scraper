@@ -257,4 +257,4 @@ the RT2/F52 shape points that give chains their intermediate vertices.
 
 ## License
 
-[MIT](LICENSE)
+[MIT](LICENSE). See also [CONTRIBUTING](CONTRIBUTING.md), [Code of Conduct](CODE_OF_CONDUCT.md), [Security](SECURITY.md).
